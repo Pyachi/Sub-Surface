@@ -4,8 +4,9 @@ public class SubBehavior : MonoBehaviour
 {
     public void FixedUpdate()
     {
-        var sub = gameObject.transform.Find("subBody").GetComponent<Rigidbody>();
-        var camera = gameObject.transform.Find("Main Camera").GetComponent<Rigidbody>();
+        //Gets sub-objects without relying on names
+        var sub = GetComponentInChildren<SphereCollider>().GetComponent<Rigidbody>();
+        var camera =  GetComponentInChildren<Camera>().GetComponent<Rigidbody>();
 
         //get current position of objects in submarine
         var pos1 = sub.transform.position;
@@ -50,11 +51,9 @@ public class SubBehavior : MonoBehaviour
         //stop camera near seafloor
         if(cameraY < -15)
             camera.AddForce(new Vector3(0,  (cameraY + 15) * -2, 0));
-    }
-    
-    public void Update()
-    {
         
-            
+        
+        
+        RenderSettings.fogColor.
     }
 }
