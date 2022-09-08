@@ -2,7 +2,7 @@
 
 public class SubBehavior : MonoBehaviour
 {
-    public void Update()
+    public void FixedUpdate()
     {
         var sub = gameObject.transform.Find("subBody").GetComponent<Rigidbody>();
         var camera = gameObject.transform.Find("Main Camera").GetComponent<Rigidbody>();
@@ -16,17 +16,17 @@ public class SubBehavior : MonoBehaviour
         var cameraY = pos2.y;
 
         //move camera towards sub body
-        camera.AddForce(new Vector3(subX - cameraX, subY - cameraY, 0));
+        camera.AddForce(new Vector3((subX - cameraX) * 2, (subY - cameraY) * 2, 0));
 
         //move sub body in direction of player input
         if (Input.GetKey(KeyCode.A))
-            sub.AddForce(new Vector3(1, 0, 0));
+            sub.AddForce(new Vector3(2, 0, 0));
         if (Input.GetKey(KeyCode.D))
-            sub.AddForce(new Vector3(-1, 0, 0));
+            sub.AddForce(new Vector3(-2, 0, 0));
         if (Input.GetKey(KeyCode.W))
-            sub.AddForce(new Vector3(0, 1, 0));
+            sub.AddForce(new Vector3(0, 2, 0));
         if (Input.GetKey(KeyCode.S))
-            sub.AddForce(new Vector3(0, -1, 0));
+            sub.AddForce(new Vector3(0, -2, 0));
 
         //snap camera and body to other side of level if moved there
         if (subX > 25)
@@ -43,9 +43,18 @@ public class SubBehavior : MonoBehaviour
 
         //add force for above surface
         if (subY > 24.75)
-            sub.AddForce(new Vector3(0, (float)(subY - 24.75) * -2, 0));
+            sub.AddForce(new Vector3(0, (float)(subY - 24.75) * -4, 0));
         //stop sub at seafloor
         if (subY < -24.75)
             sub.transform.position = new Vector3(subX, (float)-24.75, 0);
+        //stop camera near seafloor
+        if(cameraY < -15)
+            camera.AddForce(new Vector3(0,  (cameraY + 15) * -2, 0));
+    }
+    
+    public void Update()
+    {
+        
+            
     }
 }
