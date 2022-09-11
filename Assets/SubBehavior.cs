@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class SubBehavior : MonoBehaviour
 {
-    
-
     private void Start()
     {
-        FindObjectOfType<AudioManager>().Play("SubAmbience");
+        FindObjectOfType<AudioManager>().Play("submarine_ambience");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -21,6 +19,7 @@ public class SubBehavior : MonoBehaviour
         //Gets sub-objects without relying on names
         var sub = GetComponentInChildren<SphereCollider>().GetComponent<Rigidbody>();
         var camera =  GetComponentInChildren<Camera>().GetComponent<Rigidbody>();
+        var audio = FindObjectOfType<AudioManager>();
 
         //get current position of objects in submarine
         var pos1 = sub.transform.position;
@@ -68,6 +67,11 @@ public class SubBehavior : MonoBehaviour
         //stop camera near seafloor
         if(cameraY < -15)
             camera.AddForce(new Vector3(0,  (cameraY + 15) * -2, 0));
+        
+        
+        //change pitch and volume of submarine based on speed
+        audio.SetPitch("submarine_ambience", ((sub.velocity.magnitude)/8) + 1 );
+        audio.SetVolume("submarine_ambience", ((sub.velocity.magnitude)/5) + (float)0.1);
         
     }
 }
