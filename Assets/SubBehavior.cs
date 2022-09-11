@@ -1,7 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SubBehavior : MonoBehaviour
 {
+    
+
+    private void Start()
+    {
+        FindObjectOfType<AudioManager>().Play("SubAmbience");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+
+    }
+
     public void FixedUpdate()
     {
         //Gets sub-objects without relying on names
@@ -28,6 +42,9 @@ public class SubBehavior : MonoBehaviour
             sub.AddForce(new Vector3(0, 2, 0));
         if (Input.GetKey(KeyCode.S))
             sub.AddForce(new Vector3(0, -2, 0));
+        if (Input.GetKey(KeyCode.F))
+            FindObjectOfType<AudioManager>().PlayOneShot("SubBump");
+            
 
         //snap camera and body to other side of level if moved there
         if (subX > 25)
@@ -52,8 +69,5 @@ public class SubBehavior : MonoBehaviour
         if(cameraY < -15)
             camera.AddForce(new Vector3(0,  (cameraY + 15) * -2, 0));
         
-        
-        
-        RenderSettings.fogColor.
     }
 }
