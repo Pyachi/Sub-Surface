@@ -18,7 +18,7 @@ public class SubBehavior : MonoBehaviour
     {
         //Gets sub-objects without relying on names
         var sub = GetComponentInChildren<SphereCollider>().GetComponent<Rigidbody>();
-        var camera =  GetComponentInChildren<Camera>().GetComponent<Rigidbody>();
+        var camera =  GetComponentInChildren<Camera>().GetComponent<Rigidbody>(); 
         var audio = FindObjectOfType<AudioManager>();
 
         //get current position of objects in submarine
@@ -66,12 +66,11 @@ public class SubBehavior : MonoBehaviour
             sub.transform.position = new Vector3(subX, (float)-24.75, 0);
         //stop camera near seafloor
         if(cameraY < -15)
-            camera.AddForce(new Vector3(0,  (cameraY + 15) * -2, 0));
-        
+            camera.AddForce(new Vector3(0,  (cameraY + 15) * (float)-1.8, 0));
         
         //change pitch and volume of submarine based on speed
         audio.SetPitch("submarine_ambience", ((sub.velocity.magnitude)/8) + 1 );
-        audio.SetVolume("submarine_ambience", ((sub.velocity.magnitude)/5) + (float)0.1);
+        audio.SetVolume("submarine_ambience", ((sub.velocity.magnitude)/8) + (float)0.1);
         
     }
 }
