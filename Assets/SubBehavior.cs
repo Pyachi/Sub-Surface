@@ -58,12 +58,15 @@ public class SubBehavior : MonoBehaviour
             camera.transform.position += new Vector3(50, 0, 0);
         }
 
-        //add force for above surface
+        //add stop sub above surface
         if (subY > 24.75)
             sub.AddForce(new Vector3(0, (float)(subY - 24.75) * -4, 0));
         //stop sub at seafloor
         if (subY < -24.75)
             sub.transform.position = new Vector3(subX, (float)-24.75, 0);
+        //raise camera near surface
+        if(cameraY > 24)
+            camera.AddForce(new Vector3(0,(cameraY - 24) * 1, 0));
         //stop camera near seafloor
         if(cameraY < -15)
             camera.AddForce(new Vector3(0,  (cameraY + 15) * (float)-1.8, 0));
