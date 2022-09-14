@@ -65,13 +65,13 @@ public class SubBehavior : MonoBehaviour
             _sub.AddForce(new Vector3(0, (float)(subY - 24.75) * -4, 0));
         //stop sub at seafloor
         if (subY < -24.75)
-            _sub.transform.position = new Vector3(subX, (float)-24.75, 0);
+            //_sub.transform.position = new Vector3(subX, (float)-24.75, 0);
         //raise camera near surface
         if(cameraY > 24)
             _camera.AddForce(new Vector3(0,(cameraY - 24) * 1, 0));
         //stop camera near seafloor
         if(cameraY < -15)
-            _camera.AddForce(new Vector3(0,  (cameraY + 15) * (float)-1.8, 0));
+            _camera.AddForce(new Vector3(0,  (cameraY + 15) * (float)-1.2, 0));
         
         //change pitch and volume of submarine based on speed
         AudioManager.SetPitch("submarine_ambience", ((_sub.velocity.magnitude)/8) + 1 );
