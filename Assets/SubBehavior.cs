@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using UnityEngine;
 
 public class SubBehavior : MonoBehaviour
@@ -75,5 +76,17 @@ public class SubBehavior : MonoBehaviour
         audio.SetPitch("submarine_ambience", ((sub.velocity.magnitude)/8) + 1 );
         audio.SetVolume("submarine_ambience", ((sub.velocity.magnitude)/8) + (float)0.1);
         
+        //set fog color based on height
+        if (cameraY < 25)
+        {
+            RenderSettings.fogEndDistance = 30;
+            RenderSettings.fogColor = new Color32((byte)((cameraY+25)*1.5),(byte)((cameraY+25)*1.5),(byte)((cameraY+70)*2), 0);
+        }
+        else
+        {
+            RenderSettings.fogEndDistance = 3000;
+        }
+
     }
+
 }
