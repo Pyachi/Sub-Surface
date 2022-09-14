@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    private static AudioManager i;
     public Sound[] sounds;
     void Awake()
     {
+        i = this;
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -16,15 +18,10 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
     }
-    
-//startup sound effects here
-    private void Start()
+
+    public static void Play(string name)
     {
-    }
-    
-    public void Play(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(i.sounds, sound => sound.name == name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -32,9 +29,9 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Play();
     }
-    public void PlayOneShot(string name)
+    public static void PlayOneShot(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(i.sounds, sound => sound.name == name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -43,9 +40,9 @@ public class AudioManager : MonoBehaviour
         s.source.PlayOneShot(s.clip);
     }
 
-    public void StopPlaying(string name)
+    public static void StopPlaying(string name)
     {
-        Sound s = Array.Find(sounds, item => item.name == name);
+        Sound s = Array.Find(i.sounds, item => item.name == name);
         
         if (s == null)
         {
@@ -55,9 +52,9 @@ public class AudioManager : MonoBehaviour
         s.source.Stop();
     }
     
-    public void SetVolume(string name, float volume)
+    public static void SetVolume(string name, float volume)
     {
-        Sound s = Array.Find(sounds, item => item.name == name);
+        Sound s = Array.Find(i.sounds, item => item.name == name);
         
         if (s == null)
         {
@@ -67,9 +64,9 @@ public class AudioManager : MonoBehaviour
         s.source.volume = volume;
     }
     
-    public void SetPitch(string name, float pitch)
+    public static void SetPitch(string name, float pitch)
     {
-        Sound s = Array.Find(sounds, item => item.name == name);
+        Sound s = Array.Find(i.sounds, item => item.name == name);
         
         if (s == null)
         {
