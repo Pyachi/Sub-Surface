@@ -37,9 +37,9 @@ public class SubBehavior : MonoBehaviour
 
         //move sub body in direction of player input
         if (Input.GetKey(KeyCode.A))
-            sub.AddForce(new Vector3(2, 0, 0));
-        if (Input.GetKey(KeyCode.D))
             sub.AddForce(new Vector3(-2, 0, 0));
+        if (Input.GetKey(KeyCode.D))
+            sub.AddForce(new Vector3(2, 0, 0));
         if (Input.GetKey(KeyCode.W))
             sub.AddForce(new Vector3(0, 2, 0));
         if (Input.GetKey(KeyCode.S))
@@ -93,11 +93,16 @@ public class SubBehavior : MonoBehaviour
 
     private void Update()
     {
+        //calculate the angle of sub gun by finding angle from submarine to mouse cursor
+        //get mouse position in pixels
         Vector2 mousePos = Input.mousePosition;
+        //get game window center point
         Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        //subtract sub position in pixels relative game window from mouse position (scaled by window size)
+        mousePos -= new Vector2((sub.position.x - camera.position.x) * (Screen.width / 21), (sub.position.y - camera.position.y) * (Screen.height / 12) );
+        //subtract screen center from mouse position
         mousePos -= screenCenter;
-        gunPivot.transform.eulerAngles = new Vector3(0,0, 360 - Mathf.Atan2(-mousePos.x, mousePos.y) * Mathf.Rad2Deg);
-        //Debug.Log("it's running");
-
+        //set the angle of the gun to point at the mouse
+        gunPivot.transform.eulerAngles = new Vector3(0,0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
     }
 }
