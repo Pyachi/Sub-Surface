@@ -9,11 +9,10 @@ public class SubBehavior : MonoBehaviour
     public Rigidbody sub;
     public GameObject gunPivot;
     public Rigidbody camera;
+    public ParticleSystem Bubbles;
     private void Start()
     {
-        AudioManager.Play("submarine_ambience"); 
-        
-
+        AudioManager.Play("submarine_ambience");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -104,5 +103,17 @@ public class SubBehavior : MonoBehaviour
         mousePos -= screenCenter;
         //set the angle of the gun to point at the mouse
         gunPivot.transform.eulerAngles = new Vector3(0,0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
+
+        
+        var particleArray = new ParticleSystem.Particle[30];
+        Bubbles.GetParticles(particleArray);
+        foreach (var particle in particleArray)
+        {
+            if (particle.position.y > 50)
+            {
+                particle.position.Set(0,-100,0);
+            }
+        }
+        
     }
 }
