@@ -10,6 +10,7 @@ public class SubBehavior : MonoBehaviour
     public GameObject gunPivot;
     public Rigidbody camera;
     public ParticleSystem Bubbles;
+    public Rigidbody bullet;
     private void Start()
     {
         AudioManager.Play("submarine_ambience");
@@ -104,7 +105,7 @@ public class SubBehavior : MonoBehaviour
         //set the angle of the gun to point at the mouse
         gunPivot.transform.eulerAngles = new Vector3(0,0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
 
-        
+        //this does not work yet
         var particleArray = new ParticleSystem.Particle[30];
         Bubbles.GetParticles(particleArray);
         foreach (var particle in particleArray)
@@ -113,6 +114,11 @@ public class SubBehavior : MonoBehaviour
             {
                 particle.position.Set(0,-100,0);
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bullet,sub.position,sub.rotation);
         }
         
     }

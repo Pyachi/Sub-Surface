@@ -4982,6 +4982,7 @@ MonoBehaviour:
   gunPivot: {fileID: 1228346258}
   camera: {fileID: 534669906}
   Bubbles: {fileID: 2020622856}
+  bullet: {fileID: 6154868156500084517, guid: 47791b633d7f19d4b8ec431ddd84c6d4, type: 3}
 --- !u!135 &278916601
 SphereCollider:
   m_ObjectHideFlags: 0
