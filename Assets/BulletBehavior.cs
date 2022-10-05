@@ -6,12 +6,14 @@ using UnityEngine;
 public class BulletBehavior : MonoBehaviour
 {
 
-    public GameObject gunpivot;
+    public GameObject submarine;
+    private Transform _gunPivotPos;
     public Rigidbody bullet;
     // Start is called before the first frame update
     void Start()
     {
-        bullet.AddForce(0,500,0);
+        _gunPivotPos = transform.Find("GunPivot");
+        bullet.AddForce(5000 * _gunPivotPos.eulerAngles.z,0,0);
     }
 
     // Update is called once per frame
