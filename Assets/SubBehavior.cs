@@ -11,6 +11,8 @@ public class SubBehavior : MonoBehaviour
     public Rigidbody camera;
     public ParticleSystem Bubbles;
     public Rigidbody bullet;
+    private float BulletSpeed = 5;
+    private float BarrelLength = 0.75f;
     private void Start()
     {
         AudioManager.Play("submarine_ambience");
@@ -115,10 +117,29 @@ public class SubBehavior : MonoBehaviour
                 particle.position.Set(0,-100,0);
             }
         }
-
+        // spawns the bullet on mouse click
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(bullet,sub.position,sub.rotation);
+            float BarrelAngleZ = gunPivot.transform.eulerAngles.z;
+            
+            // instatntiate a bullet at the position of the edge of the gun barrel
+            Rigidbody thisbullet = Instantiate(bullet, 
+                new Vector3(
+                    sub.position.x + Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                    sub.position.y + Mathf.Sin((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                    sub.position.z
+                ),
+                sub.rotation
+            );
+            
+            //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed
+            thisbullet.AddForce(
+                new Vector3(
+                    Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100,
+                    Mathf.Sin((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100,
+                    0
+                )
+            );
         }
         
     }

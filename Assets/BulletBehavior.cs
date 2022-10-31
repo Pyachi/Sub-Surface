@@ -12,8 +12,7 @@ public class BulletBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _gunPivotPos = transform.Find("GunPivot");
-        bullet.AddForce(5000 * _gunPivotPos.eulerAngles.z,0,0);
+        
     }
 
     // Update is called once per frame
@@ -25,6 +24,6 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bullet.AddForce(0,-2,0);
+
     }
 }
