@@ -12,7 +12,6 @@ public class BulletBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -24,6 +23,16 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
+    
+    }
 
+    void OnBecameInvisible()
+    {
+        Invoke("delete", 10f);
+    }
+
+    void delete()
+    {
+        Destroy(this.gameObject);
     }
 }

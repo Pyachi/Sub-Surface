@@ -11,7 +11,7 @@ public class SubBehavior : MonoBehaviour
     public Rigidbody camera;
     public ParticleSystem Bubbles;
     public Rigidbody bullet;
-    private float BulletSpeed = 5;
+    private float BulletSpeed = 1;
     private float BarrelLength = 0.75f;
     private void Start()
     {
@@ -132,11 +132,11 @@ public class SubBehavior : MonoBehaviour
                 sub.rotation
             );
             
-            //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed
+            //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
             thisbullet.AddForce(
                 new Vector3(
-                    Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100,
-                    Mathf.Sin((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100,
+                    Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100  + (sub.velocity.x * 50),
+                    Mathf.Sin((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.y * 50),
                     0
                 )
             );
