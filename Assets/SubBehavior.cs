@@ -135,12 +135,11 @@ public class SubBehavior : MonoBehaviour
             //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
             thisbullet.AddForce(
                 new Vector3(
-                    Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100  + (sub.velocity.x * 50),
+                    Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.x * 50),
                     Mathf.Sin((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.y * 50),
                     0
                 )
             );
         }
-        
     }
 }
