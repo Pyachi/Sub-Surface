@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class SubBehavior : MonoBehaviour
 {
-
     public Rigidbody sub;
     public GameObject gunPivot;
     public Rigidbody camera;
     public ParticleSystem Bubbles;
     public Rigidbody bullet;
-    private float BulletSpeed = 1;
+    
+    private bool ClickBlock = false;
+    
+    //modifiable at runtime or at developer's discretion
+    private float BulletSpeed = 5;
     private float BarrelLength = 0.75f;
+    private float ClickCooldown = 0.5f;
+    private bool Rapidfire = true;
     private void Start()
     {
         AudioManager.Play("submarine_ambience");
@@ -90,7 +95,6 @@ public class SubBehavior : MonoBehaviour
         {
             RenderSettings.fogEndDistance = 3000;
         }
-
     }
 
     private void Update()
@@ -110,19 +114,24 @@ public class SubBehavior : MonoBehaviour
         //this does not work yet
         var particleArray = new ParticleSystem.Particle[30];
         Bubbles.GetParticles(particleArray);
-        foreach (var particle in particleArray)
+        for (int i = 0; i < 30; i++)
         {
-            if (particle.position.y > 50)
+            if (particleArray[i].position.y > 50)
             {
-                particle.position.Set(0,-100,0);
+                particleArray[i].remainingLifetime = 0;
             }
         }
-        // spawns the bullet on mouse click
-        if (Input.GetMouseButtonDown(0))
+        // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
+        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Rapidfire)) && !ClickBlock)
         {
+            //set the click block to true and invoke method to unblock later
+            ClickBlock = true;
+            Invoke("ClickUnblock", ClickCooldown);
+            
+            //get the barrel angle once 
             float BarrelAngleZ = gunPivot.transform.eulerAngles.z;
             
-            // instatntiate a bullet at the position of the edge of the gun barrel
+            // instatntiate a bullet at the position of the edge of the gun barrel, scaled by barrel length
             Rigidbody thisbullet = Instantiate(bullet, 
                 new Vector3(
                     sub.position.x + Mathf.Cos((BarrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
@@ -142,4 +151,9 @@ public class SubBehavior : MonoBehaviour
             );
         }
     }
+    private void ClickUnblock()
+    {
+        ClickBlock = false;
+    }
 }
+

@@ -9,9 +9,11 @@ public class BulletBehavior : MonoBehaviour
     public GameObject submarine;
     private Transform _gunPivotPos;
     public Rigidbody bullet;
+    private Rigidbody rigid;
     // Start is called before the first frame update
     void Start()
     {
+        rigid = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,15 +25,28 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-    
+        if(gameObject.transform.position.y > 25)
+        {
+            rigid.useGravity = true;
+            rigid.drag = 0.0f;
+        }
+        else
+        {
+            rigid.useGravity = false;
+            rigid.drag = 0.1f;
+        }
     }
 
     void OnBecameInvisible()
     {
-        Invoke("delete", 10f);
+        Invoke("Delete", 1f);
     }
-
-    void delete()
+    private void OnBecameVisible()
+    {
+        CancelInvoke("Delete");
+    }
+    
+    void Delete()
     {
         Destroy(this.gameObject);
     }
