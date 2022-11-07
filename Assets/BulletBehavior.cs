@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class BulletBehavior : MonoBehaviour
 {
-
-    public GameObject submarine;
     private Transform _gunPivotPos;
     public Rigidbody bullet;
     private Rigidbody rigid;
@@ -49,5 +47,14 @@ public class BulletBehavior : MonoBehaviour
     void Delete()
     {
         Destroy(this.gameObject);
+    }
+
+    void snapleft()
+    {
+        this.gameObject.transform.position += new Vector3(-50, 0, 0);
+    }
+    void snapright()
+    {
+        this.gameObject.transform.position += new Vector3(50, 0, 0);
     }
 }

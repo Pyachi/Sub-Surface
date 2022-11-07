@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class SubBehavior : MonoBehaviour
 {
@@ -11,12 +13,13 @@ public class SubBehavior : MonoBehaviour
     public ParticleSystem Bubbles;
     public Rigidbody bullet;
     
-    private bool ClickBlock = false;
+    private List<Rigidbody> bulletlist = new List<Rigidbody>();
+    private bool ClickBlock;
     
     //modifiable at runtime or at developer's discretion
     private float BulletSpeed = 5;
     private float BarrelLength = 0.75f;
-    private float ClickCooldown = 0.5f;
+    private float ClickCooldown = 0.1f;
     private bool Rapidfire = true;
     private void Start()
     {
@@ -55,18 +58,44 @@ public class SubBehavior : MonoBehaviour
             AudioManager.PlayOneShot("SubBump");
             
 
-        //snap camera and body to other side of level if moved there
+        //snap camera and body and bullets to other side of level if moved there
         if (subX > 25)
         {
             sub.transform.position += new Vector3(-50, 0, 0);
             camera.transform.position += new Vector3(-50, 0, 0);
+            //remove all bullets that don't exist anymore, and foreach add position to move properly
+            for(var i = bulletlist.Count - 1; i > -1; i--)
+            {
+                if (bulletlist[i] == null)
+                {
+                    bulletlist.RemoveAt(i);
+                }
+            }
+            foreach (var bulletbody in bulletlist)
+            {
+                bulletbody.position += new Vector3(-50, 0, 0);
+            }
         }
 
         if (subX < -25)
         {
             sub.transform.position += new Vector3(50, 0, 0);
             camera.transform.position += new Vector3(50, 0, 0);
+            
+            //remove all bullets that don't exist anymore, and foreach add position to move properly
+            for(var i = bulletlist.Count - 1; i > -1; i--)
+            {
+                if (bulletlist[i] == null)
+                {
+                    bulletlist.RemoveAt(i);
+                }
+            }
+            foreach (var bulletbody in bulletlist)
+            {
+                bulletbody.position += new Vector3(50, 0, 0);
+            }
         }
+        
 
         //add stop sub above surface
         if (subY > 24.75)
@@ -76,7 +105,7 @@ public class SubBehavior : MonoBehaviour
             //_sub.transform.position = new Vector3(subX, (float)-24.75, 0);
         //raise camera near surface
         if(cameraY > 24)
-            camera.AddForce(new Vector3(0,(cameraY - 24) * 1, 0));
+            camera.AddForce(new Vector3(0,(cameraY - 24) * 1.5f, 0));
         //stop camera near seafloor
         if(cameraY < -15)
             camera.AddForce(new Vector3(0,  (cameraY + 15) * (float)-1.2, 0));
@@ -89,7 +118,7 @@ public class SubBehavior : MonoBehaviour
         if (cameraY < 25)
         {
             RenderSettings.fogEndDistance = 30;
-            RenderSettings.fogColor = new Color32((byte)((cameraY+25)*1.5),(byte)((cameraY+25)*1.5),(byte)((cameraY+70)*2), 0);
+            RenderSettings.fogColor = new Color32((byte)((cameraY+25)*1.7),(byte)((cameraY+25)*1.7),(byte)((cameraY+70)*2), 0);
         }
         else
         {
@@ -121,6 +150,7 @@ public class SubBehavior : MonoBehaviour
                 particleArray[i].remainingLifetime = 0;
             }
         }
+        
         // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
         if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Rapidfire)) && !ClickBlock)
         {
@@ -141,6 +171,9 @@ public class SubBehavior : MonoBehaviour
                 sub.rotation
             );
             
+            //store and save each rigid body for each newly spawned bullet
+            bulletlist.Add(thisbullet);
+            
             //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
             thisbullet.AddForce(
                 new Vector3(
@@ -151,9 +184,9 @@ public class SubBehavior : MonoBehaviour
             );
         }
     }
+
     private void ClickUnblock()
     {
         ClickBlock = false;
     }
 }
-
