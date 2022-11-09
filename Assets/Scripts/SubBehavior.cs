@@ -49,8 +49,7 @@ public class SubBehavior : MonoBehaviour
             sub.AddForce(new Vector3(0, 2, 0));
         if (Input.GetKey(KeyCode.S))
             sub.AddForce(new Vector3(0, -2, 0));
-        if (Input.GetKey(KeyCode.F))
-            AudioManager.PlayOneShot("SubBump");
+        
             
 
         //snap camera and body and bullets to other side of level if moved there
@@ -60,8 +59,6 @@ public class SubBehavior : MonoBehaviour
         if (subX < -25)
             ObjectManager.ShiftRight();
         
-        
-
         //add stop sub above surface
         if (subY > 24.75)
             sub.AddForce(new Vector3(0, (float)(subY - 24.75) * -4, 0));
@@ -121,7 +118,7 @@ public class SubBehavior : MonoBehaviour
         {
             //set the click block to true and invoke method to unblock later
             ClickBlock = true;
-            Invoke("ClickUnblock", ClickCooldown);
+            Invoke(nameof(ClickUnblock), ClickCooldown);
             
             //get the barrel angle once 
             float BarrelAngleZ = gunPivot.transform.eulerAngles.z;
