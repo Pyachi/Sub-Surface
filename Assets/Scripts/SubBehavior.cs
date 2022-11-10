@@ -127,7 +127,6 @@ public class SubBehavior : MonoBehaviour
             RD_emission.enabled = true;
             LD_emission.enabled = true;
         }
-        
 
 
 
