@@ -41,16 +41,20 @@ public class SubBehavior : MonoBehaviour
         camera.AddForce(new Vector3((subX - cameraX) * 2, (subY - cameraY) * 2, 0));
 
         //move sub body in direction of player input
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A)) {
             sub.AddForce(new Vector3(-2, 0, 0));
-        if (Input.GetKey(KeyCode.D))
+        }
+        if (Input.GetKey(KeyCode.D)) {
             sub.AddForce(new Vector3(2, 0, 0));
-        if (Input.GetKey(KeyCode.W))
+        }
+        if (Input.GetKey(KeyCode.W)) {
             sub.AddForce(new Vector3(0, 2, 0));
-        if (Input.GetKey(KeyCode.S))
+        }
+        if (Input.GetKey(KeyCode.S)) {
             sub.AddForce(new Vector3(0, -2, 0));
-        
-            
+        }
+
+
 
         //snap camera and body and bullets to other side of level if moved there
         if (subX > 25)
