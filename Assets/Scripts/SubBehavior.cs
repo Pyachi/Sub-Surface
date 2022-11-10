@@ -10,9 +10,13 @@ public class SubBehavior : MonoBehaviour
     public Rigidbody sub;
     public GameObject gunPivot;
     public Rigidbody camera;
-    public ParticleSystem Bubbles;
     public Rigidbody bullet;
-    
+    public ParticleSystem Bubbles;
+    public ParticleSystem RU_Thrust_bubbles;
+    public ParticleSystem LU_Thrust_bubbles;
+    public ParticleSystem RD_Thrust_bubbles;
+    public ParticleSystem LD_Thrust_bubbles;
+
     private bool ClickBlock;
     
     //modifiable at runtime or at developer's discretion
@@ -36,23 +40,95 @@ public class SubBehavior : MonoBehaviour
         var pos2 = camera.transform.position;
         var cameraX = pos2.x;
         var cameraY = pos2.y;
+        
+        //get the emission modules of each thruster
+        var RU_emission = RU_Thrust_bubbles.emission;
+        var LU_emission = LU_Thrust_bubbles.emission;
+        var RD_emission = RD_Thrust_bubbles.emission;
+        var LD_emission = LD_Thrust_bubbles.emission;
 
         //move camera towards sub body
         camera.AddForce(new Vector3((subX - cameraX) * 2, (subY - cameraY) * 2, 0));
 
+        //get the values of each key
+        bool A_key = Input.GetKey(KeyCode.A);
+        bool D_key = Input.GetKey(KeyCode.D);
+        bool W_key = Input.GetKey(KeyCode.W);
+        bool S_key = Input.GetKey(KeyCode.S);
+        
         //move sub body in direction of player input
-        if (Input.GetKey(KeyCode.A)) {
+        if (A_key)
             sub.AddForce(new Vector3(-2, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.D)) {
+        if (D_key) 
             sub.AddForce(new Vector3(2, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.W)) {
-            sub.AddForce(new Vector3(0, 2, 0));
-        }
-        if (Input.GetKey(KeyCode.S)) {
+        if (W_key)
+            sub.AddForce(new Vector3(0, 2, 0)); 
+        if (S_key)
             sub.AddForce(new Vector3(0, -2, 0));
+
+        //specify the thruster output for each possible key combo (probably a better way, but I can't think of it right now)
+        if (W_key && !A_key && !S_key && !D_key || W_key && A_key && !S_key && D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = false;
+            RD_emission.enabled = true;
+            LD_emission.enabled = true;
         }
+        else if (!W_key && A_key && !S_key && !D_key || W_key && A_key && S_key && !D_key) {
+            RU_emission.enabled = true;
+            LU_emission.enabled = false;
+            RD_emission.enabled = true;
+            LD_emission.enabled = false;
+        }
+        else if (!W_key && !A_key && S_key && !D_key || !W_key && A_key && S_key && D_key) {
+            RU_emission.enabled = true;
+            LU_emission.enabled = true;
+            RD_emission.enabled = false;
+            LD_emission.enabled = false;
+        }
+        else if (!W_key && !A_key && !S_key && D_key || W_key && !A_key && S_key && D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = true;
+            RD_emission.enabled = false;
+            LD_emission.enabled = true;
+        }
+        else if (W_key && A_key && !S_key && !D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = false;
+            RD_emission.enabled = true;
+            LD_emission.enabled = false;
+        }
+        else if (!W_key && A_key && S_key && !D_key) {
+            RU_emission.enabled = true;
+            LU_emission.enabled = false;
+            RD_emission.enabled = false;
+            LD_emission.enabled = false;
+        }
+        else if (!W_key && !A_key && S_key && D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = true;
+            RD_emission.enabled = false;
+            LD_emission.enabled = false;
+        }
+        else if (W_key && !A_key && !S_key && D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = false;
+            RD_emission.enabled = false;
+            LD_emission.enabled = true;
+        }
+        else if (!W_key && !A_key && !S_key && !D_key) {
+            RU_emission.enabled = false;
+            LU_emission.enabled = false;
+            RD_emission.enabled = false;
+            LD_emission.enabled = false;
+        }
+        else {
+            RU_emission.enabled = true;
+            LU_emission.enabled = true;
+            RD_emission.enabled = true;
+            LD_emission.enabled = true;
+        }
+        
+
 
 
 
