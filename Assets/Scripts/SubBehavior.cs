@@ -42,94 +42,46 @@ public class SubBehavior : MonoBehaviour
         var cameraY = pos2.y;
         
         //get the emission modules of each thruster
-        var RU_emission = RU_Thrust_bubbles.emission;
-        var LU_emission = LU_Thrust_bubbles.emission;
-        var RD_emission = RD_Thrust_bubbles.emission;
-        var LD_emission = LD_Thrust_bubbles.emission;
+        var ruEmission = RU_Thrust_bubbles.emission;
+        var luEmission = LU_Thrust_bubbles.emission;
+        var rdEmission = RD_Thrust_bubbles.emission;
+        var ldEmission = LD_Thrust_bubbles.emission;
 
         //move camera towards sub body
         camera.AddForce(new Vector3((subX - cameraX) * 2, (subY - cameraY) * 2, 0));
 
         //get the values of each key
-        bool A_key = Input.GetKey(KeyCode.A);
-        bool D_key = Input.GetKey(KeyCode.D);
-        bool W_key = Input.GetKey(KeyCode.W);
-        bool S_key = Input.GetKey(KeyCode.S);
+        var aKey = Input.GetKey(KeyCode.A);
+        var dKey = Input.GetKey(KeyCode.D);
+        var wKey = Input.GetKey(KeyCode.W);
+        var sKey = Input.GetKey(KeyCode.S);
         
         //move sub body in direction of player input
-        if (A_key)
-            sub.AddForce(new Vector3(-2, 0, 0));
-        if (D_key) 
-            sub.AddForce(new Vector3(2, 0, 0));
-        if (W_key)
-            sub.AddForce(new Vector3(0, 2, 0)); 
-        if (S_key)
-            sub.AddForce(new Vector3(0, -2, 0));
+        if (aKey) sub.AddForce(new Vector3(-2, 0, 0));
+        if (dKey) sub.AddForce(new Vector3(2, 0, 0));
+        if (wKey) sub.AddForce(new Vector3(0, 2, 0)); 
+        if (sKey) sub.AddForce(new Vector3(0, -2, 0));
 
-        //specify the thruster output for each possible key combo (probably a better way, but I can't think of it right now)
-        if (W_key && !A_key && !S_key && !D_key || W_key && A_key && !S_key && D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = false;
-            RD_emission.enabled = true;
-            LD_emission.enabled = true;
-        }
-        else if (!W_key && A_key && !S_key && !D_key || W_key && A_key && S_key && !D_key) {
-            RU_emission.enabled = true;
-            LU_emission.enabled = false;
-            RD_emission.enabled = true;
-            LD_emission.enabled = false;
-        }
-        else if (!W_key && !A_key && S_key && !D_key || !W_key && A_key && S_key && D_key) {
-            RU_emission.enabled = true;
-            LU_emission.enabled = true;
-            RD_emission.enabled = false;
-            LD_emission.enabled = false;
-        }
-        else if (!W_key && !A_key && !S_key && D_key || W_key && !A_key && S_key && D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = true;
-            RD_emission.enabled = false;
-            LD_emission.enabled = true;
-        }
-        else if (W_key && A_key && !S_key && !D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = false;
-            RD_emission.enabled = true;
-            LD_emission.enabled = false;
-        }
-        else if (!W_key && A_key && S_key && !D_key) {
-            RU_emission.enabled = true;
-            LU_emission.enabled = false;
-            RD_emission.enabled = false;
-            LD_emission.enabled = false;
-        }
-        else if (!W_key && !A_key && S_key && D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = true;
-            RD_emission.enabled = false;
-            LD_emission.enabled = false;
-        }
-        else if (W_key && !A_key && !S_key && D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = false;
-            RD_emission.enabled = false;
-            LD_emission.enabled = true;
-        }
-        else if (!W_key && !A_key && !S_key && !D_key) {
-            RU_emission.enabled = false;
-            LU_emission.enabled = false;
-            RD_emission.enabled = false;
-            LD_emission.enabled = false;
-        }
-        else {
-            RU_emission.enabled = true;
-            LU_emission.enabled = true;
-            RD_emission.enabled = true;
-            LD_emission.enabled = true;
-        }
+        var x = 0;
+        if (wKey) x += 1;
+        if (aKey) x += 2;
+        if (sKey) x += 4;
+        if (dKey) x += 8;
 
-
-
+        if (x % 5 == 0 && x != 0)
+        {
+            ruEmission.enabled = true;
+            luEmission.enabled = true;
+            rdEmission.enabled = true;
+            ldEmission.enabled = true;
+        }
+        else
+        {
+            ruEmission.enabled = x == 2 || x == 4 || x == 6 || x == 7 || x == 14;
+            luEmission.enabled = x == 4 || x == 8 || x == 12 || x == 13 || x == 14;
+            rdEmission.enabled = x == 1 || x == 2 || x == 3 || x == 7 || x == 11;
+            ldEmission.enabled = x == 1 || x == 8 || x == 9 || x == 11 || x == 13;
+        }
 
         //snap camera and body and bullets to other side of level if moved there
         if (subX > 25)
