@@ -61,13 +61,15 @@ public class SubBehavior : MonoBehaviour
         if (dKey) sub.AddForce(new Vector3(2, 0, 0));
         if (wKey) sub.AddForce(new Vector3(0, 2, 0)); 
         if (sKey) sub.AddForce(new Vector3(0, -2, 0));
-
+        
+        //generate a unique number for each key combo
         var x = 0;
         if (wKey) x += 1;
         if (aKey) x += 2;
         if (sKey) x += 4;
         if (dKey) x += 8;
-
+        
+        //if the mod 5 of x is 0 then enable all thusters, else use the table of known key inputs to generate correct output
         if (x % 5 == 0 && x != 0)
         {
             ruEmission.enabled = true;
