@@ -29,6 +29,7 @@ public class SubBehavior : MonoBehaviour
         AudioManager.Play("submarine_ambience");
         ObjectManager.AddObject(sub.gameObject);
         ObjectManager.AddObject(camera.gameObject);
+        EnemyManager.Init(gameObject);
     }
 
     public void FixedUpdate()
