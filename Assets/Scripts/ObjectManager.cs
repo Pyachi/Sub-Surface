@@ -7,6 +7,20 @@ public static class ObjectManager
 
     public static void AddObject(GameObject obj) => Objs.Add(obj);
     public static void RemoveObject(GameObject obj) => Objs.Remove(obj);
-    public static void ShiftLeft() => Objs.ForEach(obj => obj.transform.Translate(-50, 0, 0));
-    public static void ShiftRight() => Objs.ForEach(obj => obj.transform.Translate(50, 0, 0));
+
+    public static void ShiftLeft()
+    {
+        foreach (var obj in Objs)
+        {
+            obj.transform.Translate(new Vector3(-50,0,0));
+        }
+    }
+
+    public static void ShiftRight()
+    {
+        foreach (var obj in Objs)
+        {
+            obj.transform.Translate(new Vector3(50,0,0));
+        }
+    }
 }
