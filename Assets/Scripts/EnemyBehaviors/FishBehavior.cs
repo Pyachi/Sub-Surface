@@ -17,6 +17,7 @@ public class FishBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.gameObject.transform.eulerAngles = new Vector3(0, 0, 360 - Mathf.Atan2(this.transform.position.x - sub.transform.position.x, this.transform.position.y - sub.transform.position.y) * Mathf.Rad2Deg);
+
+
     }
 }

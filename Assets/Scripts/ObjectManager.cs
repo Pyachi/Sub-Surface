@@ -12,7 +12,9 @@ public static class ObjectManager
     {
         foreach (var obj in Objs)
         {
-            obj.transform.Translate(new Vector3(-50,0,0));
+            Vector3 temppos = obj.transform.position;
+            temppos.x -= 50;
+            obj.transform.position = temppos;
         }
     }
 
@@ -20,7 +22,9 @@ public static class ObjectManager
     {
         foreach (var obj in Objs)
         {
-            obj.transform.Translate(new Vector3(50,0,0));
+            Vector3 temppos = obj.transform.position;
+            temppos.x += 50;
+            obj.transform.position = temppos;
         }
     }
 }
