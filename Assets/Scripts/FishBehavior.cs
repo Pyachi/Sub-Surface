@@ -10,6 +10,6 @@ public class FishBehavior : MonoBehaviour
         var position = transform.position;
         var x = position.x;
         var y = position.y;
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2((subY - y), (subX - x)) * Mathf.Rad2Deg);
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(subY - y, subX - x) * Mathf.Rad2Deg);
     }
 }
