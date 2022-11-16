@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BulletBehavior : MonoBehaviour
 {
-    private Transform _gunPivotPos;
     private Rigidbody _rigid;
 
     public void Start()
@@ -27,13 +26,13 @@ public class BulletBehavior : MonoBehaviour
         }
     }
 
-    void OnBecameInvisible()
+    private void OnBecameInvisible()
     {
         Invoke(nameof(Delete), 1f);
     }
     private void OnBecameVisible()
     {
-        CancelInvoke("Delete");
+        CancelInvoke(nameof(Delete));
     }
 
     private void Delete()
