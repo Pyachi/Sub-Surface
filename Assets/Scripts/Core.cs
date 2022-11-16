@@ -4,11 +4,11 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
     public GameObject sub;
-    public static GameObject subObject;
+    public static GameObject SubObject;
 
     private void Start()
     {
-        subObject = sub;
+        SubObject = sub;
     }
     
     private void FixedUpdate()

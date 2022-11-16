@@ -19960,6 +19960,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592202681}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!198 &1627064312 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 287157391660370639, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 287157390996605127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1738421250
 GameObject:
   m_ObjectHideFlags: 0
@@ -30182,6 +30188,36 @@ PrefabInstance:
     - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
         type: 3}
       propertyPath: LD_Thrust_bubbles
+      value: 
+      objectReference: {fileID: 662065744}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: bubbles
+      value: 
+      objectReference: {fileID: 1627064312}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 534669906}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: ruThrustBubbles
+      value: 
+      objectReference: {fileID: 1863565072}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: luThrustBubbles
+      value: 
+      objectReference: {fileID: 1047324659}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: rdThrustBubbles
+      value: 
+      objectReference: {fileID: 2039423842}
+    - target: {fileID: 287157391255201087, guid: 7fbce8f8c1f790942a5c6779b4acf9a9,
+        type: 3}
+      propertyPath: ldThrustBubbles
       value: 
       objectReference: {fileID: 662065744}
     m_RemovedComponents: []
