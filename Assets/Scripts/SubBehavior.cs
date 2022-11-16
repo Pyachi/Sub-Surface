@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Drawing;
-using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 public class SubBehavior : MonoBehaviour
 {
