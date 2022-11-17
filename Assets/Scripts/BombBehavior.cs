@@ -16,48 +16,48 @@ public class BombBehavior: MonoBehaviour
     //public ParticleSystem SootParticles;
     //public ParticleSystem SmokeParticles;
     
-    private Rigidbody thisrigidbody;
-    private bool explosionstarted = false;
-    private float timer = 1.0f;
+    private Rigidbody _thisrigidbody;
+    private bool _explosionstarted = false;
+    private float _timer = 1.0f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-       thisrigidbody = this.gameObject.GetComponent<Rigidbody>();
-       var Emission = FireParticles.emission;
-       Emission.enabled = false;
+       _thisrigidbody = this.gameObject.GetComponent<Rigidbody>();
+       var emission = FireParticles.emission;
+       emission.enabled = false;
 
        Light.intensity = 0;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            Vector3 subpos = Core.SubObject.transform.position;
+            var subpos = Core.SubObject.transform.position;
             subpos.y -= 0.9f;
-            Vector3 difference = subpos - this.transform.position;
-            float distance = difference.magnitude;
+            var difference = subpos - this.transform.position;
+            var distance = difference.magnitude;
             
             if (distance < 1.5 && distance > 1)
             {
-                thisrigidbody.AddForce((difference*10) / (distance * 2.0f));
+                _thisrigidbody.AddForce((difference*10) / (distance * 2.0f));
             }
             else if (distance < 1)
             {
-                thisrigidbody.AddForce(difference*15);
+                _thisrigidbody.AddForce(difference*15);
             }
 
-            if (Input.GetKey(KeyCode.E) && explosionstarted == false && distance < 1)  //if E is also being pressed then start explosion sequence
+            if (Input.GetKey(KeyCode.E) && _explosionstarted == false && distance < 1)  //if E is also being pressed then start explosion sequence
             {
-                explosionstarted = true;
+                _explosionstarted = true;
                 Invoke(nameof(Countdown), Random.value/4);
             }
         }
     }
 
-    void Countdown()
+    private void Countdown()
     {
         //play beeping sound
         AudioManager.PlayOneShot("beep");
@@ -65,38 +65,38 @@ public class BombBehavior: MonoBehaviour
         Invoke(nameof(Blink), 0.0f);
         
         //decrement timer amount by 15%
-        timer -= timer * 0.15f;
+        _timer -= _timer * 0.15f;
         
-        if (timer > 0.01)
+        if (_timer > 0.01)
         {
-            Invoke(nameof(Countdown), timer);
+            Invoke(nameof(Countdown), _timer);
         }
         else
         {
             //make the bomb invisible
-            foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())  
+            foreach (var rend in this.gameObject.GetComponentsInChildren<MeshRenderer>())  
             {
-                renderer.enabled = false;
+                rend.enabled = false;
             }
             
             //turn off collider for bomb components
-            foreach (var collider in this.gameObject.GetComponentsInChildren<Collider>())  
+            foreach (var coll in this.gameObject.GetComponentsInChildren<Collider>())  
             {
-                collider.enabled = false;
+                coll.enabled = false;
             }
             
             //play the explosion sound
             AudioManager.PlayOneShot("Explosion");
             
             //start particle systems
-            var Emission = FireParticles.emission;
-            Emission.enabled = true;
+            var emission = FireParticles.emission;
+            emission.enabled = true;
             
             //start light
             Light.intensity = 3;
             
             //fire bullets in all directions
-            Vector3 currentpos = thisrigidbody.position;
+            Vector3 currentpos = _thisrigidbody.position;
             for (int i = 0; i < 360; i += 2)
             {
                 Rigidbody thisbullet = Instantiate(bullet,currentpos, new Quaternion());
@@ -115,8 +115,8 @@ public class BombBehavior: MonoBehaviour
     private void Explosion()
     {
         //stop particles
-        var Emission = FireParticles.emission;
-        Emission.enabled = false;
+        var emission = FireParticles.emission;
+        emission.enabled = false;
         
         // stop light
         Light.intensity = 0;
@@ -132,9 +132,9 @@ public class BombBehavior: MonoBehaviour
 
     private void Blink()
     {
-        foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())
+        foreach (var rend in this.gameObject.GetComponentsInChildren<MeshRenderer>())
         {
-            renderer.material = Red;
+            rend.material = Red;
         }
         Invoke(nameof(UnBlink), 0.05f);
         
@@ -142,17 +142,9 @@ public class BombBehavior: MonoBehaviour
 
     private void UnBlink()
     {
-        foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())
+        foreach (var rend in this.gameObject.GetComponentsInChildren<MeshRenderer>())
         {
-            if (renderer.gameObject.GetComponent<SphereCollider>() != null)
-            {
-                renderer.material = RustyMetal;
-            }
-            else
-            {
-                renderer.material = LightGrayMetal;
-            }
-
+            rend.material = rend.gameObject.GetComponent<SphereCollider>() != null ? RustyMetal : LightGrayMetal;
         }
     }
 
