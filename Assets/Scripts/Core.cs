@@ -13,5 +13,6 @@ public class Core : MonoBehaviour
     private void FixedUpdate()
     {
         EnemyManager.Update();
+        BombManager.Update();
     }
 }

@@ -14,6 +14,9 @@ public class SubBehavior : MonoBehaviour
 
     private bool _clickBlock;
 
+    private static float subpitch = 1;
+    private static float subvolume = 0.1f;
+
     //modifiable at runtime or at developer's discretion
     private const float BulletSpeed = 5;
     private const float BarrelLength = 0.75f;
@@ -103,8 +106,10 @@ public class SubBehavior : MonoBehaviour
             cam.AddForce(new Vector3(0, (cameraY + 15) * (float)-1.2, 0));
 
         //change pitch and volume of submarine based on speed
-        AudioManager.SetPitch("submarine_ambience", ((sub.velocity.magnitude) / 8) + 1);
-        AudioManager.SetVolume("submarine_ambience", ((sub.velocity.magnitude) / 8) + (float)0.1);
+        subpitch = subpitch * 0.85f + (sub.velocity.magnitude/8 + 1) * 0.15f;
+        subvolume = subvolume * 0.85f + (sub.velocity.magnitude/8 + 0.1f) * 0.15f;
+        AudioManager.SetPitch("submarine_ambience", subpitch);
+        AudioManager.SetVolume("submarine_ambience", subvolume);
 
         //set fog color based on height
         if (cameraY < 25)
