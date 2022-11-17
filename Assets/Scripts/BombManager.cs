@@ -6,18 +6,16 @@ using Random = UnityEngine.Random;
 public static class BombManager
 {
     private static readonly GameObject Bomb = Resources.Load("spawnables/Bomb", typeof(GameObject)) as GameObject;
-    private static int _lifetime;
     private static double _credits;
 
     public static void Update()
     {
-        _lifetime++;
         _credits += 0.02; //To be scaled with time, credits are spent to spawn bombs
-        if (_credits < 10.0) //if there are not enough credits to spawn a bomb, then return
+        if (_credits < 2.0f) //if there are not enough credits to spawn a bomb, then return
         {
             return;
         }
-        _credits -= 10.0;
+        _credits -= 2.0f;
         
         Vector3 spawnPosition;
         while (true) //pick a random point off the screen and spawn a bomb, if the bomb is out of bounds try again.
