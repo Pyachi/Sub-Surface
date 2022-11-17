@@ -9,6 +9,7 @@ public class BombBehavior: MonoBehaviour
     public ParticleSystem FireParticles;
     public Light Light;
     public Material RustyMetal;
+    public Material LightGrayMetal;
     public Material Red;
 
     public Rigidbody bullet;
@@ -143,7 +144,15 @@ public class BombBehavior: MonoBehaviour
     {
         foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())
         {
-            renderer.material = RustyMetal;
+            if (renderer.gameObject.GetComponent<SphereCollider>() != null)
+            {
+                renderer.material = RustyMetal;
+            }
+            else
+            {
+                renderer.material = LightGrayMetal;
+            }
+
         }
     }
 
