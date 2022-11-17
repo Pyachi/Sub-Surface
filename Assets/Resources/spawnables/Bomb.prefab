@@ -1554,6 +1554,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FireParticles: {fileID: 848164601726377918}
   Light: {fileID: 4205892893330557114}
+  RustyMetal: {fileID: 2100000, guid: c369e4174122b034c9e404498a442931, type: 2}
+  Red: {fileID: 2100000, guid: 668b4b6631f2fe04fb13f05f316018cf, type: 2}
+  bullet: {fileID: 6154868156500084517, guid: 47791b633d7f19d4b8ec431ddd84c6d4, type: 3}
 --- !u!1 &1505341968555524690
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,7 +1948,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -2114,7 +2117,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -2430,7 +2433,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10000
+    maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -2695,7 +2698,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 500
+      scalar: 250
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5539,9 +5542,9 @@ ParticleSystem:
       emitProbability: 1
   LightsModule:
     enabled: 1
-    ratio: 1
+    ratio: 0.25
     light: {fileID: 4205892893330557114}
-    randomDistribution: 0
+    randomDistribution: 1
     color: 0
     range: 0
     intensity: 0

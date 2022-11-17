@@ -8,6 +8,10 @@ public class BombBehavior: MonoBehaviour
 {
     public ParticleSystem FireParticles;
     public Light Light;
+    public Material RustyMetal;
+    public Material Red;
+
+    public Rigidbody bullet;
     //public ParticleSystem SootParticles;
     //public ParticleSystem SmokeParticles;
     
@@ -23,8 +27,6 @@ public class BombBehavior: MonoBehaviour
        Emission.enabled = false;
 
        Light.intensity = 0;
-
-
     }
 
     // Update is called once per frame
@@ -53,14 +55,17 @@ public class BombBehavior: MonoBehaviour
             }
         }
     }
-    
-    
 
     void Countdown()
     {
+        //play beeping sound
         AudioManager.PlayOneShot("beep");
-        timer -= timer * 0.15f;
 
+        Invoke(nameof(Blink), 0.0f);
+        
+        //decrement timer amount by 15%
+        timer -= timer * 0.15f;
+        
         if (timer > 0.01)
         {
             Invoke(nameof(Countdown), timer);
@@ -73,7 +78,13 @@ public class BombBehavior: MonoBehaviour
                 renderer.enabled = false;
             }
             
-            //play the sound
+            //turn off collider for bomb components
+            foreach (var collider in this.gameObject.GetComponentsInChildren<Collider>())  
+            {
+                collider.enabled = false;
+            }
+            
+            //play the explosion sound
             AudioManager.PlayOneShot("Explosion");
             
             //start particle systems
@@ -83,6 +94,18 @@ public class BombBehavior: MonoBehaviour
             //start light
             Light.intensity = 3;
             
+            //fire bullets in all directions
+            Vector3 currentpos = thisrigidbody.position;
+            for (int i = 0; i < 360; i += 2)
+            {
+                Rigidbody thisbullet = Instantiate(bullet,currentpos, new Quaternion());
+                ObjectManager.AddObject(thisbullet.gameObject);
+                thisbullet.AddForce(new Vector3( 
+                    Mathf.Sin(i * Mathf.Deg2Rad) * 750 * (Random.value + 0.5f),
+                    Mathf.Cos(i * Mathf.Deg2Rad) * 750 * (Random.value + 0.5f), 
+                    0
+                    )); 
+            }
             
             Invoke(nameof(Explosion), 0.2f);
         }
@@ -98,7 +121,6 @@ public class BombBehavior: MonoBehaviour
         Light.intensity = 0;
         
         Invoke(nameof(Delete), 0.5f);
-        
     }
 
     private void Delete()
@@ -106,4 +128,23 @@ public class BombBehavior: MonoBehaviour
         ObjectManager.RemoveObject(this.gameObject);
         Destroy(this.gameObject);
     }
+
+    private void Blink()
+    {
+        foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
+            renderer.material = Red;
+        }
+        Invoke(nameof(UnBlink), 0.05f);
+        
+    }
+
+    private void UnBlink()
+    {
+        foreach (var renderer in this.gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
+            renderer.material = RustyMetal;
+        }
+    }
+
 }
