@@ -125,9 +125,6 @@ public class MenuSubBehavior : MonoBehaviour
                 sub.rotation
             );
 
-            //store and save each rigid body for each newly spawned bullet
-            ObjectManager.AddObject(bulletObj.gameObject);
-
             //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
             bulletObj.AddForce(
                 new Vector3(
