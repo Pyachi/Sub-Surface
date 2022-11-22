@@ -17,14 +17,14 @@ public class MenuSubBehavior : MonoBehaviour
     private const float ClickCooldown = 0.1f;
     private const bool RapidFire = true;
 
-    private static float subpitch = 1;
-    private static float subvolume = 0.1f;
+    //private static float subpitch = 1;
+    //private static float subvolume = 0.1f;
     
     private bool _clickBlock;
 
     private void Start()
     {
-        AudioManager.Play("submarine_ambience");
+        AudioManager.Play("menu_theme");
     }
 
     public void FixedUpdate()
@@ -80,12 +80,12 @@ public class MenuSubBehavior : MonoBehaviour
             ldEmission.enabled = x == 1 || x == 8 || x == 9 || x == 11 || x == 13;
         }
 
-        //change pitch and volume of submarine based on speed
+        /* //change pitch and volume of submarine based on speed
         subpitch = subpitch * 0.85f + (sub.velocity.magnitude/8 + 1) * 0.15f;
         subvolume = subvolume * 0.85f + (sub.velocity.magnitude/8 + 0.1f) * 0.15f;
         AudioManager.SetPitch("submarine_ambience", subpitch);
         AudioManager.SetVolume("submarine_ambience", subvolume);
-        
+        */
     }
 
     private void Update()

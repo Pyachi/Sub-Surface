@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
     public string levelname;
+
+    public GameObject optionsScreen;
+    public GameObject tutorialScreen;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,22 +29,22 @@ public class MainMenuScript : MonoBehaviour
 
     public void OpenOptions()
     {
-        
+        optionsScreen.SetActive(true);
     }
     
     public void CloseOptions()
     {
-        
+        optionsScreen.SetActive(false);
     }
     
     public void OpenTutorial()
     {
-        
+        tutorialScreen.SetActive(true);
     }
     
     public void CloseTutorial()
     {
-        
+        tutorialScreen.SetActive(false);
     }
 
     public void Quit()
