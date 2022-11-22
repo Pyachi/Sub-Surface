@@ -98,8 +98,8 @@ public class MenuSubBehavior : MonoBehaviour
         //subtract sub position in pixels relative game window from mouse position (scaled by window size)
         var subPos = sub.position;
         var camPos = new Vector3(0,1,-10);
-        mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 5F),
-            (subPos.y - camPos.y) * (Screen.height / 2.5F));
+        mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 5.2F),
+            (subPos.y - camPos.y) * (Screen.height / 2.7F));
         //subtract screen center from mouse position
         mousePos -= screenCenter;
         //set the angle of the gun to point at the mouse
