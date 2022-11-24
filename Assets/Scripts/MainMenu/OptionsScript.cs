@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Audio;
 public class OptionsScript : MonoBehaviour
 {
     public Toggle fullscreen, vsync;
     public List<ResolutionItem> resolutions = new List<ResolutionItem>();
     private int SelectRes;
     public Text resolutionLabel;
+    public AudioMixer MainAudioMixer;
+    public Text MasterLabel, MusicLabel, SFXLabel;
+    public Slider MasterSlider, MusicSlider, SFXSlider; 
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +52,12 @@ public class OptionsScript : MonoBehaviour
             
             updateResLabel();
         }
+
+        //grab saved volume and set sliders to it
+        MasterSlider.value = PlayerPrefs.GetFloat("MasterVol");
+        MusicSlider.value = PlayerPrefs.GetFloat("MusicVol");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
+        
     }
 
     // Update is called once per frame
@@ -96,7 +106,27 @@ public class OptionsScript : MonoBehaviour
         
         Screen.SetResolution(resolutions[SelectRes].width, resolutions[SelectRes].height, fullscreen.isOn);
     }
+
+    public void SetMasterVolume()
+    {
+        MasterLabel.text = MasterSlider.value.ToString();
+        MainAudioMixer.SetFloat("MasterVolume", (MasterSlider.value * 0.8f) - 80);
+        PlayerPrefs.SetFloat("MasterVol", MasterSlider.value);
+    }
     
+    public void SetMusicVolume()
+    {
+        MusicLabel.text = MusicSlider.value.ToString();
+        MainAudioMixer.SetFloat("MusicVolume", (MusicSlider.value * 0.8f) - 80);
+        PlayerPrefs.SetFloat("MusicVol", MusicSlider.value);
+    }
+    
+    public void SetSFXVolume()
+    {
+        SFXLabel.text = SFXSlider.value.ToString();
+        MainAudioMixer.SetFloat("SFXVolume", (SFXSlider.value * 0.8f) - 80);
+        PlayerPrefs.SetFloat("SFXVol", SFXSlider.value);
+    }
 }
 
 [System.Serializable]

@@ -35071,6 +35071,7 @@ MonoBehaviour:
     loop: 0
     group: {fileID: 0}
     source: {fileID: 0}
+  MainAudioMixer: {fileID: 24100000, guid: ecac0b6ccbab0e040a3e272215c070a1, type: 2}
 --- !u!4 &2125304237
 Transform:
   m_ObjectHideFlags: 0

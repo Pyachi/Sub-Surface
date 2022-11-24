@@ -1,10 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager _i;
     public Sound[] sounds;
+    public AudioMixer MainAudioMixer;
 
     private void Awake()
     {
@@ -18,6 +20,23 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.outputAudioMixerGroup = s.group;
         }
+        
+        //set the audio volumes to whatever was stored last
+        if (PlayerPrefs.HasKey("MasterVol"))
+        {
+            MainAudioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVol")*0.8f - 80);
+        }
+        
+        if (PlayerPrefs.HasKey("MusicVol"))
+        {
+            MainAudioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVol")*0.8f - 80);
+        }
+        
+        if (PlayerPrefs.HasKey("SFXVol"))
+        {
+            MainAudioMixer.SetFloat("SFXVolume", PlayerPrefs.GetFloat("SFXVol")*0.8f - 80);
+        }
+        
     }
 
     public static void Play(string name)
