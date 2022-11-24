@@ -54,10 +54,19 @@ public class OptionsScript : MonoBehaviour
         }
 
         //grab saved volume and set sliders to it
-        MasterSlider.value = PlayerPrefs.GetFloat("MasterVol");
-        MusicSlider.value = PlayerPrefs.GetFloat("MusicVol");
-        SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
-        
+        if (PlayerPrefs.HasKey("MasterVol"))
+        {
+            MasterSlider.value = PlayerPrefs.GetFloat("MasterVol");
+        }
+        if (PlayerPrefs.HasKey("MusicVol"))
+        {
+            MusicSlider.value = PlayerPrefs.GetFloat("MusicVol");
+        }
+        if (PlayerPrefs.HasKey("SFXVol"))
+        {
+            SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
+        }
+
     }
 
     // Update is called once per frame
