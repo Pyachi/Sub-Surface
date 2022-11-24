@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,14 @@ public class MainMenuScript : MonoBehaviour
 
     public GameObject optionsScreen;
     public GameObject tutorialScreen;
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("VsyncOption"))
+        {
+            QualitySettings.vSyncCount = PlayerPrefs.GetInt("VsyncOption");
+        }
+    }
 
     public void StartGame()
     {

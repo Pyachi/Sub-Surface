@@ -107,10 +107,12 @@ public class OptionsScript : MonoBehaviour
         if (vsync.isOn)
         {
             QualitySettings.vSyncCount = 1;
+            PlayerPrefs.SetInt("VsyncOption", 1);
         }
         else
         {
             QualitySettings.vSyncCount = 0;
+            PlayerPrefs.SetInt("VsyncOption", 0);
         }
         
         Screen.SetResolution(resolutions[SelectRes].width, resolutions[SelectRes].height, fullscreen.isOn);
