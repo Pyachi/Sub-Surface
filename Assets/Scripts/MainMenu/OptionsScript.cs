@@ -116,24 +116,47 @@ public class OptionsScript : MonoBehaviour
         Screen.SetResolution(resolutions[SelectRes].width, resolutions[SelectRes].height, fullscreen.isOn);
     }
 
+    //set volumes based on input from sliders
     public void SetMasterVolume()
     {
         MasterLabel.text = MasterSlider.value.ToString();
-        MainAudioMixer.SetFloat("MasterVolume", (MasterSlider.value * 0.8f) - 80);
+        if (MasterSlider.value != 0)
+        {
+            //use a logarithmic function to calculate volume, human hearing is logarithmic
+            MainAudioMixer.SetFloat("MasterVolume", (Mathf.Log10(MasterSlider.value) * 40) - 80);
+        }
+        else
+        {
+            MainAudioMixer.SetFloat("MasterVolume", -80f);
+        }
         PlayerPrefs.SetFloat("MasterVol", MasterSlider.value);
     }
     
     public void SetMusicVolume()
     {
         MusicLabel.text = MusicSlider.value.ToString();
-        MainAudioMixer.SetFloat("MusicVolume", (MusicSlider.value * 0.8f) - 80);
+        if (MusicSlider.value != 0)
+        {
+            MainAudioMixer.SetFloat("MusicVolume", (Mathf.Log10(MusicSlider.value) * 40) - 80);
+        }
+        else
+        {
+            MainAudioMixer.SetFloat("MusicVolume", -80f);
+        }
         PlayerPrefs.SetFloat("MusicVol", MusicSlider.value);
     }
     
     public void SetSFXVolume()
     {
         SFXLabel.text = SFXSlider.value.ToString();
-        MainAudioMixer.SetFloat("SFXVolume", (SFXSlider.value * 0.8f) - 80);
+        if (SFXSlider.value != 0)
+        {
+            MainAudioMixer.SetFloat("SFXVolume", (Mathf.Log10(SFXSlider.value) * 40) - 80);
+        }
+        else
+        {
+            MainAudioMixer.SetFloat("SFXVolume", -80f);
+        }
         PlayerPrefs.SetFloat("SFXVol", SFXSlider.value);
     }
 }

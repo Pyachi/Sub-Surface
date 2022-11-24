@@ -24,19 +24,39 @@ public class AudioManager : MonoBehaviour
         //set the audio volumes to whatever was stored last
         if (PlayerPrefs.HasKey("MasterVol"))
         {
-            MainAudioMixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVol")*0.8f - 80);
+            if (PlayerPrefs.GetFloat("MasterVol") != 0)
+            {
+                MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(PlayerPrefs.GetFloat("MasterVol"))*40 - 80);
+            }
+            else
+            {
+                MainAudioMixer.SetFloat("MasterVolume", -80f);
+            }
         }
         
         if (PlayerPrefs.HasKey("MusicVol"))
         {
-            MainAudioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVol")*0.8f - 80);
+            if (PlayerPrefs.GetFloat("MusicVol") != 0)
+            {
+                MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(PlayerPrefs.GetFloat("MusicVol"))*40 - 80);
+            }
+            else
+            {
+                MainAudioMixer.SetFloat("MusicVolume", -80f);
+            }
         }
         
         if (PlayerPrefs.HasKey("SFXVol"))
         {
-            MainAudioMixer.SetFloat("SFXVolume", PlayerPrefs.GetFloat("SFXVol")*0.8f - 80);
+            if (PlayerPrefs.GetFloat("SFXVol") != 0)
+            {
+                MainAudioMixer.SetFloat("SFXVolume", Mathf.Log10(PlayerPrefs.GetFloat("SFXVol"))*40 - 80);
+            }
+            else
+            {
+                MainAudioMixer.SetFloat("SFXVolume", -80f);
+            }
         }
-        
     }
 
     public static void Play(string name)
