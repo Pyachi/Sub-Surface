@@ -35048,24 +35048,28 @@ MonoBehaviour:
     volume: 0.225
     pitch: 3.02
     loop: 1
+    group: {fileID: 243233737187651414, guid: ecac0b6ccbab0e040a3e272215c070a1, type: 2}
     source: {fileID: 0}
   - name: submarine_bump
     clip: {fileID: 8300000, guid: 7052a65612f2a354c88fc0d0be636850, type: 3}
     volume: 1
     pitch: 1
     loop: 0
+    group: {fileID: 243233737187651414, guid: ecac0b6ccbab0e040a3e272215c070a1, type: 2}
     source: {fileID: 0}
   - name: beep
     clip: {fileID: 8300000, guid: 3762ce4a9f2a75c41a9b42c87f3fe82d, type: 3}
     volume: 0.1
     pitch: 2
     loop: 0
+    group: {fileID: 0}
     source: {fileID: 0}
   - name: Explosion
     clip: {fileID: 8300000, guid: 9862c25a6b7cee7449c5fc1deeb71fef, type: 3}
     volume: 0.5
     pitch: 1
     loop: 0
+    group: {fileID: 0}
     source: {fileID: 0}
 --- !u!4 &2125304237
 Transform:

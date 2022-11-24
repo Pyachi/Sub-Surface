@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [Serializable]
 public class Sound
@@ -14,6 +15,8 @@ public class Sound
     public float pitch;
 
     public bool loop;
+
+    public AudioMixerGroup group;
 
     [HideInInspector]
     public AudioSource source;
