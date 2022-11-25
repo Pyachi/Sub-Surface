@@ -48,7 +48,7 @@ public class MenuController : MonoBehaviour
         isPaused = false;
         PauseMenu.SetActive(false);
         Time.timeScale = 1f;
-        //SceneManager.LoadScene(upgradesScene)
+        SceneManager.LoadScene("Upgrades");
     }
     
     public void ReturnToMain()
