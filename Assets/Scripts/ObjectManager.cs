@@ -10,6 +10,7 @@ public static class ObjectManager
 
     public static void ShiftLeft()
     {
+        Objs.RemoveAll(it => !it);
         foreach (var obj in Objs)
         {
             var pos = obj.transform.position;
@@ -20,6 +21,7 @@ public static class ObjectManager
 
     public static void ShiftRight()
     {
+        Objs.RemoveAll(it => !it);
         foreach (var obj in Objs)
         {
             var pos = obj.transform.position;
