@@ -106,8 +106,8 @@ public class SubBehavior : MonoBehaviour
             cam.AddForce(new Vector3(0, (cameraY + 15) * (float)-1.2, 0));
 
         //change pitch and volume of submarine based on speed
-        subpitch = subpitch * 0.85f + (sub.velocity.magnitude/8 + 1) * 0.15f;
-        subvolume = subvolume * 0.85f + (sub.velocity.magnitude/8 + 0.1f) * 0.15f;
+        subpitch = subpitch * 0.85f + (sub.velocity.magnitude/8 + 1) * 0.1499f;
+        subvolume = subvolume * 0.85f + (sub.velocity.magnitude/8 + 0.1f) * 0.1499f;
         AudioManager.SetPitch("submarine_ambience", subpitch);
         AudioManager.SetVolume("submarine_ambience", subvolume);
 
