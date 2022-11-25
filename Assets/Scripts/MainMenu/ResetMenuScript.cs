@@ -18,7 +18,7 @@ public class ResetMenuScript : MonoBehaviour
         PlayerPrefs.SetInt("HealthLevel", 1);
         PlayerPrefs.SetInt("DamageLevel", 1);
         PlayerPrefs.SetInt("FireRateLevel", 1);
-        PlayerPrefs.SetInt("RapidFireLevel", 1);
+        PlayerPrefs.SetInt("RapidFireLevel", 0);
         PlayerPrefs.SetInt("Money", 1000000000);
         optionsMenu.SetActive(true);
         this.gameObject.SetActive(false);
