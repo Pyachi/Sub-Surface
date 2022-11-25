@@ -12,7 +12,8 @@ public class OptionsScript : MonoBehaviour
     public Text resolutionLabel;
     public AudioMixer MainAudioMixer;
     public Text MasterLabel, MusicLabel, SFXLabel;
-    public Slider MasterSlider, MusicSlider, SFXSlider; 
+    public Slider MasterSlider, MusicSlider, SFXSlider;
+    public GameObject resetMenu;
     
     // Start is called before the first frame update
     void Start()
@@ -160,6 +161,12 @@ public class OptionsScript : MonoBehaviour
             MainAudioMixer.SetFloat("SFXVolume", -80f);
         }
         PlayerPrefs.SetFloat("SFXVol", SFXSlider.value);
+    }
+
+    public void OpenResetMenu()
+    {
+        resetMenu.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 }
 
