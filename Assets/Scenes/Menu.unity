@@ -2158,7 +2158,7 @@ PrefabInstance:
     - target: {fileID: 676847366439979758, guid: f25aa31207bd1504d8e2abefe12be8a0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 676847366439979758, guid: f25aa31207bd1504d8e2abefe12be8a0,
         type: 3}
@@ -3422,6 +3422,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000106, y: 1.0000106, z: 1.0000106}
   m_Children:
   - {fileID: 764171252}
+  - {fileID: 1959355824}
   - {fileID: 1252570974}
   m_Father: {fileID: 1922712302}
   m_RootOrder: 7
@@ -5235,6 +5236,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950534619}
   m_CullTransparentMesh: 0
+--- !u!1 &1959355823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1959355824}
+  - component: {fileID: 1959355826}
+  - component: {fileID: 1959355825}
+  m_Layer: 5
+  m_Name: TutorialText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1959355824
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959355823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1196181051}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 12.6, y: -15.425}
+  m_SizeDelta: {x: 1845.4, y: 669.15}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1959355825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959355823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8352942, g: 0.8352942, b: 0.8352942, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 42
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 150
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'In Sub-Surface, you have to move around the level to avoid the fish that
+    come to attack you. If a fish touches you, you will get damaged. You can shoot
+    at the fish to earn points and survive longer. You can also use bombs to deal
+    a lot of damage all at once.
+
+
+    Movement: Use the WASD keys to move the submarine
+
+
+    Shooting: Use the mouse to point the gun and left click to shoot
+
+
+    Bombs: Hold the SPACE BAR while a bomb is below the submarine to grab it. press
+    E while holding the bomb to start the countdown. Bombs only damage fish, and not
+    the submarine.
+
+
+    Upgrades: When you kill an enemy it will give you coins that you can use to upgrade
+    your submarine. This will give you an advantage over the fish and make you able
+    to play longer.
+
+
+
+
+
+
+'
+--- !u!222 &1959355826
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959355823}
+  m_CullTransparentMesh: 1
 --- !u!1 &1973595340
 GameObject:
   m_ObjectHideFlags: 0
