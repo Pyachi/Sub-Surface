@@ -7,7 +7,6 @@ public static class EnemyManager
 {
     private static readonly GameObject Fish = Resources.Load("enemies/fish",typeof(GameObject)) as GameObject;
     private static readonly GameObject Shark = Resources.Load("enemies/shark", typeof(GameObject)) as GameObject;
-    private static readonly GameObject Eel = Resources.Load("enemies/eel", typeof(GameObject)) as GameObject;
     private static GameObject _sub;
     private static int _lifetime;
     private static double _credits;
@@ -30,19 +29,9 @@ public static class EnemyManager
         var rand = Random.Range(0, 10);  //pick a random number that corresponds to a specific fish
         GameObject selection;
         
-        if (rand < 6) //pick a fish
-        {
-            selection = Fish;
-        }
-        else if (rand < 9)
-        {
-             selection = Shark;
-        }
-        else
-        {
-            selection = Eel;
-        }
-
+        //pick a fish
+        selection = rand < 8 ? Fish : Shark;
+        
         Vector3 spawnPosition;
         while (true) //pick a random point off the screen and spawn an enemy, if the enemy is out of bounds try again.
         {

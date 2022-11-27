@@ -16,6 +16,8 @@ public static class ObjectManager
             var pos = obj.transform.position;
             pos.x -= 50;
             obj.transform.position = pos;
+            var enemy = obj.GetComponent<EnemyBehavior>();
+            if (enemy) enemy.target.Clear();
         }
     }
 
@@ -27,6 +29,8 @@ public static class ObjectManager
             var pos = obj.transform.position;
             pos.x += 50;
             obj.transform.position = pos;
+            var enemy = obj.GetComponent<EnemyBehavior>();
+            if (enemy) enemy.target.Clear();
         }
     }
 }

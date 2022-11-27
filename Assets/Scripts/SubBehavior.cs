@@ -1,27 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SubBehavior : MonoBehaviour
 {
     public Rigidbody sub;
     public GameObject gunPivot;
     public Rigidbody cam;
-    public Rigidbody bullet;
+    public GameObject bullet;
     public ParticleSystem bubbles;
     public ParticleSystem ruThrustBubbles;
     public ParticleSystem luThrustBubbles;
     public ParticleSystem rdThrustBubbles;
     public ParticleSystem ldThrustBubbles;
+    public Text Money;
+    public Text Health;
 
     private bool _clickBlock;
 
     private static float subpitch = 1;
     private static float subvolume = 0.1f;
 
-    //modifiable at runtime or at developer's discretion
+    private int _health;
+
     private const float BulletSpeed = 5;
     private const float BarrelLength = 0.75f;
-    private const float ClickCooldown = 0.1f;
-    private const bool RapidFire = true;
+    private float _clickCooldown;
 
     private void Start()
     {
@@ -29,10 +34,29 @@ public class SubBehavior : MonoBehaviour
         ObjectManager.AddObject(sub.gameObject);
         ObjectManager.AddObject(cam.gameObject);
         EnemyManager.Init(gameObject);
+        _clickCooldown = 1F / PlayerPrefs.GetInt("FireRateLevel");
+        _health = PlayerPrefs.GetInt("HealthLevel");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _health -= damage;
+        AudioManager.PlayOneShot("submarine_bump");
+        if (_health > 0) return;
+        AudioManager.PlayOneShot("submarine_scrape");
+        Invoke(nameof(GameOver),1);
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene("Scenes/Upgrades");
     }
 
     public void FixedUpdate()
     {
+        Money.text = "Money: " + PlayerPrefs.GetInt("Money");
+        Health.text = "Health: " + _health;
+        
         //get current position of objects in submarine
         var pos1 = sub.transform.position;
         var subX = pos1.x;
@@ -56,11 +80,13 @@ public class SubBehavior : MonoBehaviour
         var wKey = Input.GetKey(KeyCode.W);
         var sKey = Input.GetKey(KeyCode.S);
 
+        var speed = (float) Math.Log10(PlayerPrefs.GetInt("SpeedLevel"));
+        
         //move sub body in direction of player input
-        if (aKey) sub.AddForce(new Vector3(-2, 0, 0));
-        if (dKey) sub.AddForce(new Vector3(2, 0, 0));
-        if (wKey) sub.AddForce(new Vector3(0, 2, 0));
-        if (sKey) sub.AddForce(new Vector3(0, -2, 0));
+        if (aKey) sub.AddForce(new Vector3(-2 - speed, 0, 0));
+        if (dKey) sub.AddForce(new Vector3(2 + speed, 0, 0));
+        if (wKey) sub.AddForce(new Vector3(0, 2 + speed, 0));
+        if (sKey) sub.AddForce(new Vector3(0, -2 - speed, 0));
 
         //generate a unique number for each key combo
         var x = 0;
@@ -106,8 +132,8 @@ public class SubBehavior : MonoBehaviour
             cam.AddForce(new Vector3(0, (cameraY + 15) * (float)-1.2, 0));
 
         //change pitch and volume of submarine based on speed
-        subpitch = subpitch * 0.85f + (sub.velocity.magnitude/8 + 1) * 0.1499f;
-        subvolume = subvolume * 0.85f + (sub.velocity.magnitude/8 + 0.1f) * 0.1499f;
+        subpitch = subpitch * 0.85f + (sub.velocity.magnitude / 8 + 1) * 0.1499f;
+        subvolume = subvolume * 0.85f + (sub.velocity.magnitude / 8 + 0.1f) * 0.1499f;
         AudioManager.SetPitch("submarine_ambience", subpitch);
         AudioManager.SetVolume("submarine_ambience", subvolume);
 
@@ -157,11 +183,12 @@ public class SubBehavior : MonoBehaviour
             }
 
             // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
-            if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && RapidFire)) && !_clickBlock)
+            if ((Input.GetMouseButtonDown(0) ||
+                 (Input.GetMouseButton(0) && PlayerPrefs.GetInt("RapidFireLevel") == 1)) && !_clickBlock)
             {
                 //set the click block to true and invoke method to unblock later
                 _clickBlock = true;
-                Invoke(nameof(ClickUnblock), ClickCooldown);
+                Invoke(nameof(ClickUnblock), _clickCooldown);
 
                 //get the barrel angle once 
                 var barrelAngleZ = gunPivot.transform.eulerAngles.z;
@@ -175,12 +202,13 @@ public class SubBehavior : MonoBehaviour
                     ),
                     sub.rotation
                 );
+                AudioManager.PlayOneShot("shoot");
 
                 //store and save each rigid body for each newly spawned bullet
                 ObjectManager.AddObject(bulletObj.gameObject);
 
                 //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
-                bulletObj.AddForce(
+                bulletObj.GetComponent<Rigidbody>().AddForce(
                     new Vector3(
                         Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.x * 50),
                         Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.y * 50),

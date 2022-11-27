@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -8,11 +9,12 @@ public class EnemyBehavior : MonoBehaviour
     public int damage;
     public float speed;
     public int targetingDistance;
+    public int money;
 
     private int _health;
     private int _damage;
 
-    private List<Vector2> _target = new List<Vector2>();
+    [HideInInspector] public List<Vector2> target = new List<Vector2>();
 
     private void Start()
     {
@@ -32,30 +34,37 @@ public class EnemyBehavior : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(subY - y, subX - x) * Mathf.Rad2Deg);
 
         //Movement
-        _target.Insert(0, new Vector2(subX, subY));
-        while (_target.Count > targetingDistance + 1) _target.RemoveAt(targetingDistance + 1);
-        if (_target.Count > targetingDistance)
+        target.Add( subPos + Core.SubObject.GetComponent<Rigidbody>().velocity);
+        while (target.Count > targetingDistance + 1) target.RemoveAt(0);
+        if (target.Count > 0)
         {
-            var target = _target[targetingDistance];
+            var tar = target[0];
             var position = new Vector2(x, y);
-            var newPos = position + (target - position).normalized * speed;
+            var dif = tar - position;
+            Vector2 newPos;
+            if (dif.magnitude >= 1.0) newPos = position + (tar - position).normalized * speed;
+            else newPos = position + (tar - position) * speed;
             transform.position = new Vector3(newPos.x, newPos.y, pos.z);
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        //Bullet detection here
-        //Take damage
-        //Delete bullet
-        //idk sounds and particles and stuff @Mark
-        if (false)
+        if (collision.gameObject.CompareTag("bullet"))
         {
-            _health--;
-            if (_health == 0) Destroy(this);
+            _health -= PlayerPrefs.GetInt("DamageLevel");
+            Destroy(collision.gameObject);
+            if (_health > 0) return;
+            AudioManager.PlayOneShot("Explosion");
+            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + money);
+            Destroy(transform.GetChild(0).gameObject);
+            Destroy(this);
         }
-        
-        
-        //Oh yea also player damage detection too I guess @Mark
+        else if (collision.gameObject == Core.SubObject)
+        {
+            Core.SubObject.GetComponent<SubBehavior>().TakeDamage(_damage);
+            Destroy(transform.GetChild(0).gameObject);
+            Destroy(this);
+        }
     }
 }

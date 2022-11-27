@@ -25,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3662164575434227249}
-  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.024205208, y: 0, z: -0.02420522}
+  m_LocalRotation: {x: -0, y: 0.70710653, z: -0, w: 0.7071071}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 25, y: 25, z: 25}
   m_Children: []
   m_Father: {fileID: 6654257379665101648}
@@ -86,7 +86,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6654257379665101648}
-  - component: {fileID: 7506123330738346670}
+  - component: {fileID: 3412077316744373664}
+  - component: {fileID: 3095519008197091127}
   m_Layer: 0
   m_Name: fish
   m_TagString: Untagged
@@ -109,7 +110,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7506123330738346670
+--- !u!114 &3412077316744373664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +122,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72353e53f9483af4f840e70892ee599a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
-  damage: 5
-  speed: 0.05
-  targetingDistance: 100
+  health: 1
+  damage: 1
+  speed: 0.03
+  targetingDistance: 50
+  money: 1000
+  target: []
+--- !u!65 &3095519008197091127
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654257379665101660}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.7, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

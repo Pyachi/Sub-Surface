@@ -6141,5 +6141,10 @@ PrefabInstance:
       propertyPath: EmissionModule.enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4289101854250866360, guid: ff3e4a6a7c5ccdf4fb995eec2a37d539,
+        type: 3}
+      propertyPath: ShapeModule.m_Texture
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff3e4a6a7c5ccdf4fb995eec2a37d539, type: 3}
