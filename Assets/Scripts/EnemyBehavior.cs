@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class EnemyBehavior : MonoBehaviour
 {
     public int health;
@@ -11,10 +12,10 @@ public class EnemyBehavior : MonoBehaviour
     public int targetingDistance;
     public int money;
 
-    private int _health;
+    [HideInInspector] public List<Vector2> target = new List<Vector2>();
     private int _damage;
 
-    [HideInInspector] public List<Vector2> target = new List<Vector2>();
+    private int _health;
 
     private void Start()
     {

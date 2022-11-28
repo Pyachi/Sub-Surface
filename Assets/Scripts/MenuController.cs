@@ -1,24 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking.NetworkSystem;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class MenuController : MonoBehaviour
 {
+    public static bool isPaused;
     public string mainMenuScene;
     public GameObject PauseMenu;
     public GameObject HUD;
-    public static bool isPaused = false;
-    
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -54,7 +53,7 @@ public class MenuController : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("Upgrades");
     }
-    
+
     public void ReturnToMain()
     {
         isPaused = false;

@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class ResetMenuScript : MonoBehaviour
 {
     public GameObject optionsMenu;
-    
+
     public void ReturnToOptions()
     {
         optionsMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ResetProgress()
@@ -21,7 +22,6 @@ public class ResetMenuScript : MonoBehaviour
         PlayerPrefs.SetInt("RapidFireLevel", 0);
         PlayerPrefs.SetInt("Money", 0);
         optionsMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
-    
 }

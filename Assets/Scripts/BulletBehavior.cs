@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class BulletBehavior : MonoBehaviour
 {
     private Rigidbody _rigid;
@@ -11,7 +14,7 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(gameObject.transform.position.y > 25)
+        if (gameObject.transform.position.y > 25)
         {
             _rigid.useGravity = true;
             _rigid.drag = 0.0f;
@@ -27,6 +30,7 @@ public class BulletBehavior : MonoBehaviour
     {
         Invoke(nameof(Delete), 1f);
     }
+
     private void OnBecameVisible()
     {
         CancelInvoke(nameof(Delete));

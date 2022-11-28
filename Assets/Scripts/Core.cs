@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class Core : MonoBehaviour
 {
-    public GameObject sub;
     public static GameObject SubObject;
     public static float Scale = 1F;
+    public GameObject sub;
 
     private void Start()
     {

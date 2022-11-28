@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager _i;
@@ -20,42 +23,30 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.outputAudioMixerGroup = s.group;
         }
-        
+
         //set the audio volumes to whatever was stored last
         if (PlayerPrefs.HasKey("MasterVol"))
         {
             if (PlayerPrefs.GetFloat("MasterVol") != 0)
-            {
-                MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(PlayerPrefs.GetFloat("MasterVol"))*40 - 80);
-            }
+                MainAudioMixer.SetFloat("MasterVolume", Mathf.Log10(PlayerPrefs.GetFloat("MasterVol")) * 40 - 80);
             else
-            {
                 MainAudioMixer.SetFloat("MasterVolume", -80f);
-            }
         }
-        
+
         if (PlayerPrefs.HasKey("MusicVol"))
         {
             if (PlayerPrefs.GetFloat("MusicVol") != 0)
-            {
-                MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(PlayerPrefs.GetFloat("MusicVol"))*40 - 80);
-            }
+                MainAudioMixer.SetFloat("MusicVolume", Mathf.Log10(PlayerPrefs.GetFloat("MusicVol")) * 40 - 80);
             else
-            {
                 MainAudioMixer.SetFloat("MusicVolume", -80f);
-            }
         }
-        
+
         if (PlayerPrefs.HasKey("SFXVol"))
         {
             if (PlayerPrefs.GetFloat("SFXVol") != 0)
-            {
-                MainAudioMixer.SetFloat("SFXVolume", Mathf.Log10(PlayerPrefs.GetFloat("SFXVol"))*40 - 80);
-            }
+                MainAudioMixer.SetFloat("SFXVolume", Mathf.Log10(PlayerPrefs.GetFloat("SFXVol")) * 40 - 80);
             else
-            {
                 MainAudioMixer.SetFloat("SFXVolume", -80f);
-            }
         }
     }
 

@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class MenuSubBehavior : MonoBehaviour
 {
+    //modifiable at runtime or at developer's discretion
+    private const float BulletSpeed = 5;
+    private const float BarrelLength = 0.75f;
+    private const float ClickCooldown = 0.1f;
+    private const bool RapidFire = true;
     public Rigidbody sub;
     public GameObject gunPivot;
     public ParticleSystem bubbles;
@@ -11,20 +19,62 @@ public class MenuSubBehavior : MonoBehaviour
     public ParticleSystem rdThrustBubbles;
     public ParticleSystem ldThrustBubbles;
 
-    //modifiable at runtime or at developer's discretion
-    private const float BulletSpeed = 5;
-    private const float BarrelLength = 0.75f;
-    private const float ClickCooldown = 0.1f;
-    private const bool RapidFire = true;
-
     //private static float subpitch = 1;
     //private static float subvolume = 0.1f;
-    
+
     private bool _clickBlock;
 
     private void Start()
     {
         AudioManager.Play("menu_theme");
+    }
+
+    private void Update()
+    {
+        //calculate the angle of sub gun by finding angle from submarine to mouse cursor
+        //get mouse position in pixels
+        Vector2 mousePos = Input.mousePosition;
+        //get game window center point
+        var screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        //subtract sub position in pixels relative game window from mouse position (scaled by window size)
+        var subPos = sub.position;
+        var camPos = new Vector3(0, 1, -10);
+        mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 5.2F),
+            (subPos.y - camPos.y) * (Screen.height / 2.7F));
+        //subtract screen center from mouse position
+        mousePos -= screenCenter;
+        //set the angle of the gun to point at the mouse
+        gunPivot.transform.eulerAngles = new Vector3(0, 0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
+
+        // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
+        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && RapidFire)) && !_clickBlock)
+        {
+            //set the click block to true and invoke method to unblock later
+            _clickBlock = true;
+            Invoke(nameof(ClickUnblock), ClickCooldown);
+
+            //get the barrel angle once 
+            var barrelAngleZ = gunPivot.transform.eulerAngles.z;
+
+            // instantiate a bullet at the position of the edge of the gun barrel, scaled by barrel length
+            var bulletObj = Instantiate(bullet,
+                new Vector3(
+                    sub.position.x + Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                    sub.position.y + Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                    sub.position.z
+                ),
+                sub.rotation
+            );
+
+            //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
+            bulletObj.AddForce(
+                new Vector3(
+                    Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + sub.velocity.x * 50,
+                    Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + sub.velocity.y * 50,
+                    0
+                )
+            );
+        }
     }
 
     public void FixedUpdate()
@@ -51,10 +101,10 @@ public class MenuSubBehavior : MonoBehaviour
         if (dKey) sub.AddForce(new Vector3(2, 0, 0));
         if (wKey) sub.AddForce(new Vector3(0, 2, 0));
         if (sKey) sub.AddForce(new Vector3(0, -2, 0));
-        
+
         //move sub body in direction of original position;
         var difference = new Vector3(-1, 0, -6) - pos1;
-        
+
         sub.AddForce(difference * 5);
 
         //generate a unique number for each key combo
@@ -88,54 +138,6 @@ public class MenuSubBehavior : MonoBehaviour
         */
     }
 
-    private void Update()
-    {
-        //calculate the angle of sub gun by finding angle from submarine to mouse cursor
-        //get mouse position in pixels
-        Vector2 mousePos = Input.mousePosition;
-        //get game window center point
-        Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-        //subtract sub position in pixels relative game window from mouse position (scaled by window size)
-        var subPos = sub.position;
-        var camPos = new Vector3(0,1,-10);
-        mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 5.2F),
-            (subPos.y - camPos.y) * (Screen.height / 2.7F));
-        //subtract screen center from mouse position
-        mousePos -= screenCenter;
-        //set the angle of the gun to point at the mouse
-        gunPivot.transform.eulerAngles = new Vector3(0, 0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
-        
-        // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
-        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && RapidFire)) && !_clickBlock)
-        {
-            //set the click block to true and invoke method to unblock later
-            _clickBlock = true;
-            Invoke(nameof(ClickUnblock), ClickCooldown);
-
-            //get the barrel angle once 
-            var barrelAngleZ = gunPivot.transform.eulerAngles.z;
-
-            // instantiate a bullet at the position of the edge of the gun barrel, scaled by barrel length
-            var bulletObj = Instantiate(bullet,
-                new Vector3(
-                    sub.position.x + Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
-                    sub.position.y + Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
-                    sub.position.z
-                ),
-                sub.rotation
-            );
-
-            //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
-            bulletObj.AddForce(
-                new Vector3(
-                    Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.x * 50),
-                    Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.y * 50),
-                    0
-                )
-            );
-        }
-    }
-    
     private void ClickUnblock()
     {
         _clickBlock = false;

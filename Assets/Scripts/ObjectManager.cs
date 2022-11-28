@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public static class ObjectManager
 {
     private static readonly List<GameObject> Objs = new List<GameObject>();
 
-    public static void AddObject(GameObject obj) => Objs.Add(obj);
-    public static void RemoveObject(GameObject obj) => Objs.Remove(obj);
+    public static void AddObject(GameObject obj)
+    {
+        Objs.Add(obj);
+    }
+
+    public static void RemoveObject(GameObject obj)
+    {
+        Objs.Remove(obj);
+    }
 
     public static void ShiftLeft()
     {

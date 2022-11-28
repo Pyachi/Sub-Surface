@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class UpgradeMenuScript : MonoBehaviour
 {
     public string mainMenu, gameName;
@@ -13,177 +14,158 @@ public class UpgradeMenuScript : MonoBehaviour
     public Text DamageCount, DamageCost;
     public Text FireRateCount, FireRateCost;
     public Text RapidFireCost;
+
     public Toggle RapidFireToggle;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         //temporary for debug purposes
         //PlayerPrefs.SetInt("Money", 1000000000);
-        
+
         //check current state of every item stored in in player prefs and set prices accordingly
         MoneyText.text = PlayerPrefs.GetInt("Money").ToString();
-        
-        int tempspeed = PlayerPrefs.GetInt("SpeedLevel");
-        SpeedCount.text = tempspeed.ToString();
-        if (tempspeed < 100) {
-            SpeedCost.text = ((tempspeed*tempspeed*100) + 900).ToString();
-        }
-        else {
-            SpeedCost.text = "";
-        }
 
-        int temphealth = PlayerPrefs.GetInt("HealthLevel");
+        var tempspeed = PlayerPrefs.GetInt("SpeedLevel");
+        SpeedCount.text = tempspeed.ToString();
+        if (tempspeed < 100)
+            SpeedCost.text = (tempspeed * tempspeed * 100 + 900).ToString();
+        else
+            SpeedCost.text = "";
+
+        var temphealth = PlayerPrefs.GetInt("HealthLevel");
         HealthCount.text = temphealth.ToString();
-        if (temphealth < 100) {
-            HealthCost.text = ((temphealth*temphealth*100) + 900).ToString();
-        }
-        else {
+        if (temphealth < 100)
+            HealthCost.text = (temphealth * temphealth * 100 + 900).ToString();
+        else
             HealthCost.text = "";
-        }
-        
-        int tempdamage = PlayerPrefs.GetInt("DamageLevel");
+
+        var tempdamage = PlayerPrefs.GetInt("DamageLevel");
         DamageCount.text = tempdamage.ToString();
-        if (tempdamage < 100) {
-            DamageCost.text = ((tempdamage*tempdamage*100) + 900).ToString();
-        }
-        else {
+        if (tempdamage < 100)
+            DamageCost.text = (tempdamage * tempdamage * 100 + 900).ToString();
+        else
             DamageCost.text = "";
-        }
-        
-        int tempfirerate = PlayerPrefs.GetInt("FireRateLevel");
+
+        var tempfirerate = PlayerPrefs.GetInt("FireRateLevel");
         FireRateCount.text = tempfirerate.ToString();
-        if (tempfirerate < 100) {
-            FireRateCost.text = ((tempfirerate*tempfirerate*100) + 900).ToString();
-        }
-        else {
+        if (tempfirerate < 100)
+            FireRateCost.text = (tempfirerate * tempfirerate * 100 + 900).ToString();
+        else
             FireRateCost.text = "";
-        }
-        
-        int temprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
+
+        var temprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
         if (temprapidfire < 1)
         {
-            
             RapidFireCost.text = "500000";
             RapidFireToggle.isOn = false;
         }
-        else {
+        else
+        {
             RapidFireCost.text = "";
-             RapidFireToggle.isOn = true;
+            RapidFireToggle.isOn = true;
         }
     }
-    
+
     public void BuySpeed()
     {
-        int tempspeed = PlayerPrefs.GetInt("SpeedLevel");
-        int tempmoney = PlayerPrefs.GetInt("Money");
-        
-        if ((tempspeed*tempspeed*100)+900 <= tempmoney && tempspeed < 100)
+        var tempspeed = PlayerPrefs.GetInt("SpeedLevel");
+        var tempmoney = PlayerPrefs.GetInt("Money");
+
+        if (tempspeed * tempspeed * 100 + 900 <= tempmoney && tempspeed < 100)
         {
             PlayerPrefs.SetInt("SpeedLevel", tempspeed + 1);
-            PlayerPrefs.SetInt("Money", tempmoney - ((tempspeed*tempspeed*100) + 900));
+            PlayerPrefs.SetInt("Money", tempmoney - (tempspeed * tempspeed * 100 + 900));
 
-            int newtempspeed = PlayerPrefs.GetInt("SpeedLevel");
-            int newtempmoney = PlayerPrefs.GetInt("Money");
+            var newtempspeed = PlayerPrefs.GetInt("SpeedLevel");
+            var newtempmoney = PlayerPrefs.GetInt("Money");
             SpeedCount.text = newtempspeed.ToString();
-            if(newtempspeed < 100) {
-                SpeedCost.text = ((newtempspeed * newtempspeed*100)+900).ToString();
-            }
+            if (newtempspeed < 100)
+                SpeedCost.text = (newtempspeed * newtempspeed * 100 + 900).ToString();
             else
-            {
                 SpeedCost.text = "";
-            }
             MoneyText.text = newtempmoney.ToString();
         }
     }
 
     public void BuyHealth()
     {
-        int temphealth = PlayerPrefs.GetInt("HealthLevel");
-        int tempmoney = PlayerPrefs.GetInt("Money");
-        
-        if ((temphealth*temphealth*100)+900 <= tempmoney && temphealth < 100)
+        var temphealth = PlayerPrefs.GetInt("HealthLevel");
+        var tempmoney = PlayerPrefs.GetInt("Money");
+
+        if (temphealth * temphealth * 100 + 900 <= tempmoney && temphealth < 100)
         {
             PlayerPrefs.SetInt("HealthLevel", temphealth + 1);
-            PlayerPrefs.SetInt("Money", tempmoney - ((temphealth*temphealth*100) + 900));
+            PlayerPrefs.SetInt("Money", tempmoney - (temphealth * temphealth * 100 + 900));
 
-            int newtemphealth = PlayerPrefs.GetInt("HealthLevel");
-            int newtempmoney = PlayerPrefs.GetInt("Money");
+            var newtemphealth = PlayerPrefs.GetInt("HealthLevel");
+            var newtempmoney = PlayerPrefs.GetInt("Money");
             HealthCount.text = newtemphealth.ToString();
-            if(newtemphealth < 100) {
-                HealthCost.text = ((newtemphealth * newtemphealth*100)+900).ToString();
-            }
+            if (newtemphealth < 100)
+                HealthCost.text = (newtemphealth * newtemphealth * 100 + 900).ToString();
             else
-            {
                 HealthCost.text = "";
-            }
             MoneyText.text = newtempmoney.ToString();
         }
     }
 
     public void BuyDamage()
     {
-        int tempdamage = PlayerPrefs.GetInt("DamageLevel");
-        int tempmoney = PlayerPrefs.GetInt("Money");
-        
-        if ((tempdamage*tempdamage*100)+900 <= tempmoney && tempdamage < 100)
+        var tempdamage = PlayerPrefs.GetInt("DamageLevel");
+        var tempmoney = PlayerPrefs.GetInt("Money");
+
+        if (tempdamage * tempdamage * 100 + 900 <= tempmoney && tempdamage < 100)
         {
             PlayerPrefs.SetInt("DamageLevel", tempdamage + 1);
-            PlayerPrefs.SetInt("Money", tempmoney - ((tempdamage*tempdamage*100) + 900));
+            PlayerPrefs.SetInt("Money", tempmoney - (tempdamage * tempdamage * 100 + 900));
 
-            int newtempdamage = PlayerPrefs.GetInt("DamageLevel");
-            int newtempmoney = PlayerPrefs.GetInt("Money");
+            var newtempdamage = PlayerPrefs.GetInt("DamageLevel");
+            var newtempmoney = PlayerPrefs.GetInt("Money");
             DamageCount.text = newtempdamage.ToString();
-            if(newtempdamage < 100) {
-                DamageCost.text = ((newtempdamage * newtempdamage*100)+900).ToString();
-            }
+            if (newtempdamage < 100)
+                DamageCost.text = (newtempdamage * newtempdamage * 100 + 900).ToString();
             else
-            {
                 DamageCost.text = "";
-            }
             MoneyText.text = newtempmoney.ToString();
         }
     }
 
     public void BuyFireRate()
     {
-        int tempfirerate = PlayerPrefs.GetInt("FireRateLevel");
-        int tempmoney = PlayerPrefs.GetInt("Money");
-        
-        if ((tempfirerate*tempfirerate*100)+900 <= tempmoney && tempfirerate < 100)
+        var tempfirerate = PlayerPrefs.GetInt("FireRateLevel");
+        var tempmoney = PlayerPrefs.GetInt("Money");
+
+        if (tempfirerate * tempfirerate * 100 + 900 <= tempmoney && tempfirerate < 100)
         {
             PlayerPrefs.SetInt("FireRateLevel", tempfirerate + 1);
-            PlayerPrefs.SetInt("Money", tempmoney - ((tempfirerate*tempfirerate*100) + 900));
+            PlayerPrefs.SetInt("Money", tempmoney - (tempfirerate * tempfirerate * 100 + 900));
 
-            int newtempfirerate = PlayerPrefs.GetInt("FireRateLevel");
-            int newtempmoney = PlayerPrefs.GetInt("Money");
+            var newtempfirerate = PlayerPrefs.GetInt("FireRateLevel");
+            var newtempmoney = PlayerPrefs.GetInt("Money");
             FireRateCount.text = newtempfirerate.ToString();
-            if(newtempfirerate < 100) {
-                FireRateCost.text = ((newtempfirerate * newtempfirerate*100)+900).ToString();
-            }
+            if (newtempfirerate < 100)
+                FireRateCost.text = (newtempfirerate * newtempfirerate * 100 + 900).ToString();
             else
-            {
                 FireRateCost.text = "";
-            }
             MoneyText.text = newtempmoney.ToString();
         }
     }
 
     public void BuyRapidfire()
     {
-        
-        int temprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
-        int tempmoney = PlayerPrefs.GetInt("Money");
+        var temprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
+        var tempmoney = PlayerPrefs.GetInt("Money");
 
         if (500000 <= tempmoney && temprapidfire < 1)
         {
             PlayerPrefs.SetInt("RapidFireLevel", temprapidfire + 1);
             PlayerPrefs.SetInt("Money", tempmoney - 500000);
 
-            int newtemprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
-            int newtempmoney = PlayerPrefs.GetInt("Money");
+            var newtemprapidfire = PlayerPrefs.GetInt("RapidFireLevel");
+            var newtempmoney = PlayerPrefs.GetInt("Money");
             //add a thing here that sets the checkbox to the other option
             RapidFireToggle.isOn = true;
-            
+
             RapidFireCost.text = "";
             MoneyText.text = newtempmoney.ToString();
         }

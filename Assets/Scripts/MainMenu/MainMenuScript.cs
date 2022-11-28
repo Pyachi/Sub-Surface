@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class MainMenuScript : MonoBehaviour
 {
     public string levelname;
@@ -14,42 +14,21 @@ public class MainMenuScript : MonoBehaviour
     private void Start()
     {
         //if vsync has been saved, then set it to saved value
-        if (PlayerPrefs.HasKey("VsyncOption"))
-        {
-            QualitySettings.vSyncCount = PlayerPrefs.GetInt("VsyncOption");
-        }
-        
+        if (PlayerPrefs.HasKey("VsyncOption")) QualitySettings.vSyncCount = PlayerPrefs.GetInt("VsyncOption");
+
         //setup money to zero if not set
-        if (!PlayerPrefs.HasKey("Money"))
-        {
-            PlayerPrefs.SetInt("Money",1000000000);
-        }
-    
+        if (!PlayerPrefs.HasKey("Money")) PlayerPrefs.SetInt("Money", 1000000000);
+
         //setup player preferences for upgrades on initial startup
-        if (!PlayerPrefs.HasKey("SpeedLevel"))
-        {
-            PlayerPrefs.SetInt("SpeedLevel", 1);
-        }
-        
-        if (!PlayerPrefs.HasKey("HealthLevel"))
-        {
-            PlayerPrefs.SetInt("HealthLevel", 1);
-        }
-        
-        if (!PlayerPrefs.HasKey("DamageLevel"))
-        {
-            PlayerPrefs.SetInt("DamageLevel", 1);
-        }
-        
-        if (!PlayerPrefs.HasKey("FireRateLevel"))
-        {
-            PlayerPrefs.SetInt("FireRateLevel", 1);
-        }
-        
-        if (!PlayerPrefs.HasKey("RapidfireLevel"))
-        {
-            PlayerPrefs.SetInt("RapidfireLevel", 0);
-        }
+        if (!PlayerPrefs.HasKey("SpeedLevel")) PlayerPrefs.SetInt("SpeedLevel", 1);
+
+        if (!PlayerPrefs.HasKey("HealthLevel")) PlayerPrefs.SetInt("HealthLevel", 1);
+
+        if (!PlayerPrefs.HasKey("DamageLevel")) PlayerPrefs.SetInt("DamageLevel", 1);
+
+        if (!PlayerPrefs.HasKey("FireRateLevel")) PlayerPrefs.SetInt("FireRateLevel", 1);
+
+        if (!PlayerPrefs.HasKey("RapidfireLevel")) PlayerPrefs.SetInt("RapidfireLevel", 0);
     }
 
     public void StartGame()
@@ -61,17 +40,17 @@ public class MainMenuScript : MonoBehaviour
     {
         optionsScreen.SetActive(true);
     }
-    
+
     public void CloseOptions()
     {
         optionsScreen.SetActive(false);
     }
-    
+
     public void OpenTutorial()
     {
         tutorialScreen.SetActive(true);
     }
-    
+
     public void CloseTutorial()
     {
         tutorialScreen.SetActive(false);

@@ -3,8 +3,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Written By:
+//Sarah Glass
+//Mark Scheidker
 public class SubBehavior : MonoBehaviour
 {
+    private const float BulletSpeed = 5;
+    private const float BarrelLength = 0.75f;
+
+    private static float subpitch = 1;
+    private static float subvolume = 0.1f;
     public Rigidbody sub;
     public GameObject gunPivot;
     public Rigidbody cam;
@@ -18,15 +26,9 @@ public class SubBehavior : MonoBehaviour
     public Text Health;
 
     private bool _clickBlock;
-
-    private static float subpitch = 1;
-    private static float subvolume = 0.1f;
+    private float _clickCooldown;
 
     private int _health;
-
-    private const float BulletSpeed = 5;
-    private const float BarrelLength = 0.75f;
-    private float _clickCooldown;
 
     private void Start()
     {
@@ -38,25 +40,76 @@ public class SubBehavior : MonoBehaviour
         _health = PlayerPrefs.GetInt("HealthLevel");
     }
 
-    public void TakeDamage(int damage)
+    private void Update()
     {
-        _health -= damage;
-        AudioManager.PlayOneShot("submarine_bump");
-        if (_health > 0) return;
-        AudioManager.PlayOneShot("submarine_scrape");
-        Invoke(nameof(GameOver),1);
-    }
+        //if the game is not paused then do everything in here
+        if (!MenuController.IsGamePaused())
+        {
+            //calculate the angle of sub gun by finding angle from submarine to mouse cursor
+            //get mouse position in pixels
+            Vector2 mousePos = Input.mousePosition;
+            //get game window center point
+            var screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            //subtract sub position in pixels relative game window from mouse position (scaled by window size)
+            var subPos = sub.position;
+            var camPos = cam.position;
+            mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 21F),
+                (subPos.y - camPos.y) * (Screen.height / 12F));
+            //subtract screen center from mouse position
+            mousePos -= screenCenter;
+            //set the angle of the gun to point at the mouse
+            gunPivot.transform.eulerAngles =
+                new Vector3(0, 0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
 
-    private void GameOver()
-    {
-        SceneManager.LoadScene("Scenes/Upgrades");
+            //this does not work yet
+            var particleArray = new ParticleSystem.Particle[30];
+            bubbles.GetParticles(particleArray);
+            for (var i = 0; i < 30; i++)
+                if (particleArray[i].position.y > 50)
+                    particleArray[i].remainingLifetime = 0;
+
+            // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
+            if ((Input.GetMouseButtonDown(0) ||
+                 (Input.GetMouseButton(0) && PlayerPrefs.GetInt("RapidFireLevel") == 1)) && !_clickBlock)
+            {
+                //set the click block to true and invoke method to unblock later
+                _clickBlock = true;
+                Invoke(nameof(ClickUnblock), _clickCooldown);
+
+                //get the barrel angle once 
+                var barrelAngleZ = gunPivot.transform.eulerAngles.z;
+
+                // instantiate a bullet at the position of the edge of the gun barrel, scaled by barrel length
+                var bulletObj = Instantiate(bullet,
+                    new Vector3(
+                        sub.position.x + Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                        sub.position.y + Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
+                        sub.position.z
+                    ),
+                    sub.rotation
+                );
+                AudioManager.PlayOneShot("shoot");
+
+                //store and save each rigid body for each newly spawned bullet
+                ObjectManager.AddObject(bulletObj.gameObject);
+
+                //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
+                bulletObj.GetComponent<Rigidbody>().AddForce(
+                    new Vector3(
+                        Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + sub.velocity.x * 50,
+                        Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + sub.velocity.y * 50,
+                        0
+                    )
+                );
+            }
+        }
     }
 
     public void FixedUpdate()
     {
         Money.text = "Money: " + PlayerPrefs.GetInt("Money");
         Health.text = "Health: " + _health;
-        
+
         //get current position of objects in submarine
         var pos1 = sub.transform.position;
         var subX = pos1.x;
@@ -80,8 +133,8 @@ public class SubBehavior : MonoBehaviour
         var wKey = Input.GetKey(KeyCode.W);
         var sKey = Input.GetKey(KeyCode.S);
 
-        var speed = (float) Math.Log10(PlayerPrefs.GetInt("SpeedLevel"));
-        
+        var speed = (float)Math.Log10(PlayerPrefs.GetInt("SpeedLevel"));
+
         //move sub body in direction of player input
         if (aKey) sub.AddForce(new Vector3(-2 - speed, 0, 0));
         if (dKey) sub.AddForce(new Vector3(2 + speed, 0, 0));
@@ -150,73 +203,18 @@ public class SubBehavior : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void TakeDamage(int damage)
     {
-        //if the game is not paused then do everything in here
-        if (!MenuController.IsGamePaused())
-        {
-            //calculate the angle of sub gun by finding angle from submarine to mouse cursor
-            //get mouse position in pixels
-            Vector2 mousePos = Input.mousePosition;
-            //get game window center point
-            Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-            //subtract sub position in pixels relative game window from mouse position (scaled by window size)
-            var subPos = sub.position;
-            var camPos = cam.position;
-            mousePos -= new Vector2((subPos.x - camPos.x) * (Screen.width / 21F),
-                (subPos.y - camPos.y) * (Screen.height / 12F));
-            //subtract screen center from mouse position
-            mousePos -= screenCenter;
-            //set the angle of the gun to point at the mouse
-            gunPivot.transform.eulerAngles =
-                new Vector3(0, 0, 360 - Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg);
+        _health -= damage;
+        AudioManager.PlayOneShot("submarine_bump");
+        if (_health > 0) return;
+        AudioManager.PlayOneShot("submarine_scrape");
+        Invoke(nameof(GameOver), 1);
+    }
 
-            //this does not work yet
-            var particleArray = new ParticleSystem.Particle[30];
-            bubbles.GetParticles(particleArray);
-            for (int i = 0; i < 30; i++)
-            {
-                if (particleArray[i].position.y > 50)
-                {
-                    particleArray[i].remainingLifetime = 0;
-                }
-            }
-
-            // spawns the bullet on mouse click with variable cooldown, or rapidfires if rapidfire is enabled
-            if ((Input.GetMouseButtonDown(0) ||
-                 (Input.GetMouseButton(0) && PlayerPrefs.GetInt("RapidFireLevel") == 1)) && !_clickBlock)
-            {
-                //set the click block to true and invoke method to unblock later
-                _clickBlock = true;
-                Invoke(nameof(ClickUnblock), _clickCooldown);
-
-                //get the barrel angle once 
-                var barrelAngleZ = gunPivot.transform.eulerAngles.z;
-
-                // instantiate a bullet at the position of the edge of the gun barrel, scaled by barrel length
-                var bulletObj = Instantiate(bullet,
-                    new Vector3(
-                        sub.position.x + Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
-                        sub.position.y + Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BarrelLength,
-                        sub.position.z
-                    ),
-                    sub.rotation
-                );
-                AudioManager.PlayOneShot("shoot");
-
-                //store and save each rigid body for each newly spawned bullet
-                ObjectManager.AddObject(bulletObj.gameObject);
-
-                //add a force to the bullet that is relative to the gun's rotation, multiplied by bullet speed, and relative to the sub's current speed
-                bulletObj.GetComponent<Rigidbody>().AddForce(
-                    new Vector3(
-                        Mathf.Cos((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.x * 50),
-                        Mathf.Sin((barrelAngleZ + 90) * Mathf.Deg2Rad) * BulletSpeed * 100 + (sub.velocity.y * 50),
-                        0
-                    )
-                );
-            }
-        }
+    private void GameOver()
+    {
+        SceneManager.LoadScene("Scenes/Upgrades");
     }
 
     private void ClickUnblock()
