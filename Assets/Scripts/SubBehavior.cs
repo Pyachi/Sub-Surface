@@ -55,7 +55,7 @@ public class SubBehavior : MonoBehaviour
     public void FixedUpdate()
     {
         Money.text = "Money: " + PlayerPrefs.GetInt("Money");
-        Health.text = "Health: " + _health;
+        Health.text = "Health: " + Core.Scale;
         
         //get current position of objects in submarine
         var pos1 = sub.transform.position;
