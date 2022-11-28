@@ -30,7 +30,7 @@ public static class EnemyManager
         GameObject selection;
         
         //pick a fish
-        selection = rand < 8 ? Fish : Shark;
+        selection = rand < 9 ? Fish : Shark;
         
         Vector3 spawnPosition;
         while (true) //pick a random point off the screen and spawn an enemy, if the enemy is out of bounds try again.

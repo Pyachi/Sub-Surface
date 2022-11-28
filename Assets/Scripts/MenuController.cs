@@ -43,6 +43,7 @@ public class MenuController : MonoBehaviour
     {
         isPaused = false;
         PauseMenu.SetActive(false);
+        HUD.SetActive(true);
         Time.timeScale = 1f;
     }
 
