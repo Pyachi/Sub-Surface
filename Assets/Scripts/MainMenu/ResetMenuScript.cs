@@ -15,6 +15,7 @@ public class ResetMenuScript : MonoBehaviour
 
     public void ResetProgress()
     {
+        //set all saved "player preference" values to default
         PlayerPrefs.SetInt("SpeedLevel", 1);
         PlayerPrefs.SetInt("HealthLevel", 1);
         PlayerPrefs.SetInt("DamageLevel", 1);

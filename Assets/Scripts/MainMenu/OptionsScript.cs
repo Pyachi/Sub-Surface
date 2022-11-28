@@ -28,9 +28,9 @@ public class OptionsScript : MonoBehaviour
             vsync.isOn = false;
         else
             vsync.isOn = true;
-
+        
+        //check if the current resolution is on the list of supported resolutions, if it is, set the resolution label to it
         var foundRes = false;
-
         for (var i = 0; i < resolutions.Count; i++)
             if (Screen.width == resolutions[i].width && Screen.width == resolutions[i].width)
             {
@@ -38,7 +38,8 @@ public class OptionsScript : MonoBehaviour
                 SelectRes = i;
                 updateResLabel();
             }
-
+        
+        //if the current resolution is not on the list then display the current resolution and add it to the list of supported ones
         if (!foundRes)
         {
             var newitem = new ResolutionItem();
@@ -57,11 +58,7 @@ public class OptionsScript : MonoBehaviour
         if (PlayerPrefs.HasKey("SFXVol")) SFXSlider.value = PlayerPrefs.GetFloat("SFXVol");
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
+    //when resolution left is clicked then update the label and selected resolution
     public void Resleft()
     {
         SelectRes--;
@@ -70,6 +67,7 @@ public class OptionsScript : MonoBehaviour
         updateResLabel();
     }
 
+    //when resolution right is clicked then update the label and selected resolution
     public void ResRight()
     {
         SelectRes++;
@@ -77,12 +75,13 @@ public class OptionsScript : MonoBehaviour
 
         updateResLabel();
     }
-
+    
     public void updateResLabel()
     {
         resolutionLabel.text = resolutions[SelectRes].width + " x " + resolutions[SelectRes].height;
     }
 
+    //take all of the temporary variables for the graphics settings and apply them
     public void applySettings()
     {
         if (vsync.isOn)
