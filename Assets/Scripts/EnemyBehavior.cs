@@ -34,7 +34,7 @@ public class EnemyBehavior : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(subY - y, subX - x) * Mathf.Rad2Deg);
 
         //Movement
-        target.Add( subPos + Core.SubObject.GetComponent<Rigidbody>().velocity);
+        target.Add(subPos + Core.SubObject.GetComponent<Rigidbody>().velocity);
         while (target.Count > targetingDistance + 1) target.RemoveAt(0);
         if (target.Count > 0)
         {
@@ -56,7 +56,7 @@ public class EnemyBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             if (_health > 0) return;
             AudioManager.PlayOneShot("Explosion");
-            PlayerPrefs.SetInt("Money", (int)((PlayerPrefs.GetInt("Money") + money) * Core.Scale));
+            PlayerPrefs.SetInt("Money", (int)(PlayerPrefs.GetInt("Money") + money * Core.Scale));
             Destroy(transform.GetChild(0).gameObject);
             Destroy(this);
         }
