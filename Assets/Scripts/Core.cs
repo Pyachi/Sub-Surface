@@ -9,6 +9,7 @@ public class Core : MonoBehaviour
     private void Start()
     {
         SubObject = sub;
+        Scale = 1F;
     }
 
     private void FixedUpdate()
