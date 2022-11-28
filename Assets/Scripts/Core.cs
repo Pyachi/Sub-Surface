@@ -10,9 +10,10 @@ public class Core : MonoBehaviour
     {
         SubObject = sub;
     }
-    
+
     private void FixedUpdate()
     {
+        Scale *= 1.0003F;
         EnemyManager.Update();
         BombManager.Update();
     }

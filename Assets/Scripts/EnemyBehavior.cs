@@ -18,8 +18,8 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
-        _health = health;
-        _damage = damage;
+        _health = (int)(health * Core.Scale);
+        _damage = (int)(damage * Core.Scale);
     }
 
     private void FixedUpdate()
@@ -56,7 +56,7 @@ public class EnemyBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             if (_health > 0) return;
             AudioManager.PlayOneShot("Explosion");
-            PlayerPrefs.SetInt("Money", PlayerPrefs.GetInt("Money") + money);
+            PlayerPrefs.SetInt("Money", (int)((PlayerPrefs.GetInt("Money") + money) * Core.Scale));
             Destroy(transform.GetChild(0).gameObject);
             Destroy(this);
         }

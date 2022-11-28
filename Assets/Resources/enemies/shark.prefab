@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   damage: 20
-  speed: 0.05
+  speed: 0.08
   targetingDistance: 20
   money: 10000
   target: []
