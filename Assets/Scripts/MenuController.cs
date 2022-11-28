@@ -10,13 +10,7 @@ public class MenuController : MonoBehaviour
     public string mainMenuScene;
     public GameObject PauseMenu;
     public GameObject HUD;
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -57,7 +51,6 @@ public class MenuController : MonoBehaviour
     public void ReturnToMain()
     {
         isPaused = false;
-        //PauseMenu.SetActive(false);
         Time.timeScale = 1f;
         SceneManager.LoadScene(mainMenuScene);
     }

@@ -14,6 +14,7 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Enables gravity when above water
         if (gameObject.transform.position.y > 25)
         {
             _rigid.useGravity = true;
@@ -26,6 +27,7 @@ public class BulletBehavior : MonoBehaviour
         }
     }
 
+    //Schedules offscreen bullets for deletion
     private void OnBecameInvisible()
     {
         Invoke(nameof(Delete), 1f);
